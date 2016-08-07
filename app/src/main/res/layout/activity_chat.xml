@@ -39,8 +39,7 @@
             android:id="@+id/horizontalScrollView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/bottomLayout"
-            android:background="#88000000">
+            android:layout_above="@+id/bottomLayout">
 
             <LinearLayout
                 android:id="@+id/selectedImageLayout"
@@ -93,8 +92,9 @@
                     android:layout_marginRight="@dimen/margin_very_small"
                     android:layout_marginStart="@dimen/margin_very_small"
                     android:padding="@dimen/padding_normal"
+                    android:src="@drawable/ic_attachments"
                     android:tint="@color/secondary_text"
-                    android:visibility="gone" />
+                    android:visibility="visible" />
 
             </TableRow>
 

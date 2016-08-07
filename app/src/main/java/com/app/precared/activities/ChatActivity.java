@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBar;
@@ -27,6 +28,8 @@ import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NoConnectionError;
+import com.android.volley.Request;
+import com.android.volley.Response;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
@@ -34,23 +37,31 @@ import com.app.precared.Apis.ChatApi;
 import com.app.precared.R;
 import com.app.precared.adapters.ChatAdapter;
 import com.app.precared.interfaces.Constants;
+import com.app.precared.models.Image;
 import com.app.precared.models.MyChats;
+import com.app.precared.utils.CustomMultipartRequest;
+import com.app.precared.utils.JSONUtil;
 import com.app.precared.utils.PrecaredSharePreferences;
 import com.app.precared.utils.StringUtils;
 import com.app.precared.utils.Utils;
+import com.app.precared.utils.VolleyController;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-public class ChatActivity extends AppCompatActivity implements Constants.MyChatKeys, ChatApi.ChatListener{
+public class ChatActivity extends AppCompatActivity implements Constants.MyChatKeys, ChatApi.ChatListener,View.OnClickListener{
 
     private static final String TAG = ChatActivity.class.getSimpleName();
     private List<MyChats> mTicketsList = new ArrayList<MyChats>();
@@ -64,6 +75,8 @@ public class ChatActivity extends AppCompatActivity implements Constants.MyChatK
     private ChatApi mChatApi;
     private PrecaredSharePreferences mPrecaredSharePreferences;
     private BroadcastReceiver mRegistrationBroadcastReceiver;
+    private ImageView attachImageView;
+    private List<String>  mFilePathList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,15 +127,36 @@ public class ChatActivity extends AppCompatActivity implements Constants.MyChatK
         replyEditText = (EditText) findViewById(R.id.replyEditText);
         mMainLayout = (LinearLayout) findViewById(R.id.mainLayout);
         mSelectedImagesLayout = (LinearLayout) findViewById(R.id.selectedImageLayout);
-
+        attachImageView = (ImageView) findViewById(R.id.attachButton);
+        attachImageView.setOnClickListener(this);
 
         findViewById(R.id.replyButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(replyEditText.getText().length() > 0){
                     Utils.showProgress(ChatActivity.this, Constants.VolleyRequestTags.SEND_MEG_REQUEST);
-                    mChatApi.sendMessageRequest(mPrecaredSharePreferences.getAccessToken(), replyEditText.getText().toString());
+                    //mChatApi.sendMessageRequest(mPrecaredSharePreferences.getAccessToken(), replyEditText.getText().toString());
+                    Map<String, String> params = new HashMap<>();
+                    params.put(Constants.LoginKeys.ACCESS_TOKEN, mPrecaredSharePreferences.getAccessToken());
+                    params.put(Constants.MyChatKeys.MESSAGES, replyEditText.getText().toString());
+                    CustomMultipartRequest request = new CustomMultipartRequest(Request.Method.POST, Constants.URL.API_SEND_MESSAGE, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.d(TAG, "" + response);
+                            Utils.closeProgress();
+                            ShowSnackbar("Your message successfully sent.");
 
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e("Error", error.toString());
+                            Utils.closeProgress();
+
+                        }
+                    }, params, Utils.setHeaders(mPrecaredSharePreferences.getAccessToken()), mFilePathList);
+                    // Adding request to request queue
+                    VolleyController.getInstance().addToRequestQueue(request, Constants.VolleyRequestTags.SEND_MEG_REQUEST);
                 }else {
                     Toast.makeText(ChatActivity.this, "Enter message.", Toast.LENGTH_SHORT).show();
                 }
@@ -143,6 +177,7 @@ public class ChatActivity extends AppCompatActivity implements Constants.MyChatK
             myChats.recevier_name = jsonObject.getString(RECEIVER_NAME);
             myChats.message = jsonObject.getString(MESSAGES);
             myChats.id = jsonObject.getString(ID);
+            myChats.image_url = JSONUtil.getJSONString(jsonObject, IMAGE_URL);
             mTicketsList.add(myChats);
 
         } catch (JSONException e) {
@@ -229,6 +264,7 @@ public class ChatActivity extends AppCompatActivity implements Constants.MyChatK
                     myChats.recevier_name = jsonObject.getString(RECEIVER_NAME);
                     myChats.message = jsonObject.getString(MESSAGES);
                     myChats.id = jsonObject.getString(ID);
+                    myChats.image_url = JSONUtil.getJSONString(jsonObject, IMAGE_URL);
                     mTicketsList.add(0, myChats);
 
                     replyEditText.setText("");
@@ -294,4 +330,70 @@ public class ChatActivity extends AppCompatActivity implements Constants.MyChatK
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
         super.onPause();
     }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.attachButton:
+                attachFile();
+                break;
+        }
+    }
+
+    /**
+     * attach file
+     */
+    private void attachFile() {
+        Intent intent = new Intent(this, AlbumSelectActivity.class);
+        //set limit on number of images that can be selected, default is 10
+        intent.putExtra(Constants.AttachmentsKeys.INTENT_EXTRA_LIMIT, 5);
+        startActivityForResult(intent, Constants.AttachmentsKeys.REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == Constants.AttachmentsKeys.REQUEST_CODE && resultCode == RESULT_OK && data != null) {
+            //The array list has the image paths of the selected images
+            ArrayList<Image> images = data.getParcelableArrayListExtra(Constants.AttachmentsKeys.INTENT_EXTRA_IMAGES);
+            mFilePathList.clear();
+            for (int i = 0; i < images.size(); i++) {
+                Log.d(TAG, "Name: " + images.get(i).name);
+                Log.d(TAG, "Path: " + images.get(i).path);
+                mFilePathList.add(images.get(i).path);
+            }
+            setSelectedImageLayout(mFilePathList);
+        }
+    }
+
+    /**
+     * set attachment layout
+     */
+    private void setSelectedImageLayout(List<String> selectedImageList) {
+
+        final float scale = getResources().getDisplayMetrics().density;
+        int dpWidthInPx = (int) (50 * scale);
+        int dpHeightInPx = (int) (50 * scale);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(dpWidthInPx, dpHeightInPx);
+        mSelectedImagesLayout.removeAllViews();
+        for (int i = 0; i < selectedImageList.size(); i++) {
+            ImageView imageView = new ImageView(this);
+            imageView.setLayoutParams(params);
+            imageView.setPadding(5, 5, 5, 5);
+            Picasso.with(this)
+                    .load(new File(selectedImageList.get(i)))
+                    .resize(200, 200)
+                    .placeholder(R.drawable.place_product).into(imageView);
+            mSelectedImagesLayout.addView(imageView);
+        }
+    }
+
+    /**
+     * show error method
+     */
+    public void ShowSnackbar(String msg) {
+        Snackbar snackbar = Snackbar
+                .make(mMainLayout, msg, Snackbar.LENGTH_LONG);
+        snackbar.show();
+    }
+
 }

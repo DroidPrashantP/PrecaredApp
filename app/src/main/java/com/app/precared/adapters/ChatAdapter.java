@@ -8,6 +8,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -16,6 +17,9 @@ import com.app.precared.R;
 import com.app.precared.interfaces.Constants;
 import com.app.precared.models.MyChats;
 import com.app.precared.utils.PrecaredSharePreferences;
+import com.app.precared.utils.StringUtils;
+import com.app.precared.utils.Utils;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -47,6 +51,15 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.TicketViewHold
         MyChats mychats = mTicketsList.get((mTicketsList.size()-1)- position);
         holder.body.setText(mychats.message);
         Log.e("UserID", ""+mPrecaredSharePreferences.getUserId());
+
+        if (StringUtils.isNotEmpty(mychats.image_url)){
+            holder.image.setVisibility(View.VISIBLE);
+            Picasso.with(mContext).load(mychats.image_url).placeholder(R.drawable.place_product).into(holder.image);
+        }else {
+            holder.image.setVisibility(View.GONE);
+        }
+
+       // setAttachmentLayout(holder, mPrecaredSharePreferences.getUserId().equalsIgnoreCase(mychats.sender_id), mychats);
         if (mPrecaredSharePreferences.getUserId() == mychats.sender_id) {
             holder.name.setText("By " + mychats.recevier_name);
             Log.e("sender", ""+mychats.recevier_name);
@@ -58,42 +71,40 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.TicketViewHold
         setChatLayout(holder, mPrecaredSharePreferences.getUserId().equalsIgnoreCase(mychats.sender_id), mychats);
     }
 
-//    /***
-//     * set attachment layout
-//     */
-//    private void setAttachmentLayout(final TicketViewHolder holder, mychats mychats) {
-//        if (holder.attachmentLayout != null) {
-//            (holder.attachmentLayout).removeAllViews();
-//        }
-//        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-//        for (int i = 0; i < mychats.attachmentList.size(); i++) {
-//            final View view = LayoutInflater.from(mContext).inflate(R.layout.layout_attachments, holder.attachmentLayout, false);
-//            if (Constants.mychatsKeys.USER.equalsIgnoreCase(mychats.repliedBy)) {
-//                params.setMargins(0, 0, 15, 0);
-//            } else {
-//                params.setMargins(15, 0, 0, 0);
-//
-//            }
-//            view.setLayoutParams(params);
+    /***
+     * set attachment layout
+     */
+    private void setAttachmentLayout(final TicketViewHolder holder, boolean isMe, MyChats mychats) {
+        if (holder.attachmentLayout != null) {
+            (holder.attachmentLayout).removeAllViews();
+        }
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+            final View view = LayoutInflater.from(mContext).inflate(R.layout.layout_attachments, holder.attachmentLayout, false);
+            if (isMe) {
+                params.setMargins(0, 0, 15, 0);
+            } else {
+                params.setMargins(15, 0, 0, 0);
+
+            }
+            view.setLayoutParams(params);
 //            TextView attachName = (TextView) view.findViewById(R.id.attachNameTextView);
 //            TextView attachSize = (TextView) view.findViewById(R.id.attachSizeTextView);
-//            attachName.setText(mychats.attachmentList.get(i).contentFileName);
-//            int fileSize = Integer.parseInt(mychats.attachmentList.get(i).contentFileSize);
+//            attachName.setText(mychats.contentFileName);
+//            int fileSize = Integer.parseInt(mychats.attachmentList.get(0).contentFileSize);
 //            attachSize.setText(Utils.getFileSize(fileSize));
-//            final String url = mychats.attachmentList.get(i).attachmentUrl;
+//            final String url = mychats.image_url;
 //            view.setOnClickListener(new View.OnClickListener() {
 //                @Override
 //                public void onClick(View v) {
 //                    Utils.openUrlToBrowser(url, mContext);
 //                }
 //            });
-//            view.setTag(holder);
-//            if (holder.attachmentLayout.getChildAt(i) == null)
-//                holder.attachmentLayout.addView(view);
-//            else
-//                (holder.attachmentLayout).removeView(view);
-//        }
-//    }
+            view.setTag(holder);
+            if (holder.attachmentLayout.getChildAt(0) == null)
+                holder.attachmentLayout.addView(view);
+            else
+                (holder.attachmentLayout).removeView(view);
+    }
 
     /**
      * set chat layout left or right
@@ -137,6 +148,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.TicketViewHold
         private TableRow tableRow;
         private View viewLeft, viewRight;
         private LinearLayout bodyLayout, attachmentLayout;
+        private ImageView image;
 
         public TicketViewHolder(View itemView) {
             super(itemView);
@@ -147,6 +159,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.TicketViewHold
             viewLeft = itemView.findViewById(R.id.viewLeft);
             viewRight = itemView.findViewById(R.id.viewRight);
             bodyLayout = (LinearLayout) itemView.findViewById(R.id.bodyLayout);
+            image = (ImageView) itemView.findViewById(R.id.image);
             attachmentLayout = (LinearLayout) itemView.findViewById(R.id.attachmentLayout);
         }
     }

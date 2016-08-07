@@ -8,7 +8,7 @@ public interface Constants {
     int MY_SOCKET_TIMEOUT_MS = 10000;
     String PHOTO_UPOLOAD_KEY ="image";
     int MAX_RETRIES = 0;
-
+    String SegmentKey = "dnYvfpExNQTYDmUVkOlLRBgR9nj8YPiP";
     // flag to identify whether to show single line
     // or multi line test push notification tray
     public static boolean appendNotificationMessages = true;
@@ -62,6 +62,7 @@ public interface Constants {
         String SENDER_NAME = "sender_name";
         String RECEIVER_NAME = "recevier_name";
         String ID = "id";
+        String IMAGE_URL = "image_url";
 
         String API_SEND_MSG = "send_message";
         String API_CHAT_LIST = "chat_list";

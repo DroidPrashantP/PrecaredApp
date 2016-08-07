@@ -11,6 +11,7 @@ import android.util.Log;
  */
 public class PrecaredApplication extends Application {
     public static final String TAG = PrecaredApplication.class.getSimpleName();
+    private static final String PROPERTY_ID = "UA-29881647-2";
     private static Context mContext;
     private static Activity mActivity;
     private static PrecaredApplication mInstance;

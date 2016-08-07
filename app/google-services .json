@@ -1,0 +1,38 @@
+{
+  "project_info": {
+    "project_number": "393882663760",
+    "project_id": "precared-staging"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:393882663760:android:edbb367821b24dba",
+        "android_client_info": {
+          "package_name": "com.app.precared"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0qLMKC3mO2WMxkEtd8Mz5Z2bXFNQ5LpY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 2,
+          "analytics_property": {
+            "tracking_id": "UA-29881647-2"
+          }
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
