@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mainLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/divider_light"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:elevation="@dimen/toolbar_elevation"
+        app:layout_scrollFlags="scroll|enterAlways"
+        android:background="@color/primary" >
+        </android.support.v7.widget.Toolbar>
+
+    <RelativeLayout
+        android:id="@+id/mainLayoutWrapper"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/bottomLayout"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </FrameLayout>
+
+        <HorizontalScrollView
+            android:id="@+id/horizontalScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/bottomLayout"
+            android:background="#88000000">
+
+            <LinearLayout
+                android:id="@+id/selectedImageLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" />
+
+        </HorizontalScrollView>
+
+        <TableRow
+            android:id="@+id/bottomLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:layout_marginLeft="@dimen/margin_normal"
+            android:layout_marginRight="@dimen/margin_normal"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TableRow
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/ic_me_bubble"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/padding_very_small">
+
+                <EditText
+                    android:id="@+id/replyEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:hint="@string/type_your_message_hint_text"
+                    android:imeOptions="actionDone"
+                    android:maxLines="3"
+                    android:padding="@dimen/padding_normal"
+                    android:textColor="@color/primary_text"
+                    android:textColorHint="@color/secondary_text"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <ImageView
+                    android:id="@+id/attachButton"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="@dimen/margin_very_small"
+                    android:layout_marginLeft="@dimen/margin_very_small"
+                    android:layout_marginRight="@dimen/margin_very_small"
+                    android:layout_marginStart="@dimen/margin_very_small"
+                    android:padding="@dimen/padding_normal"
+                    android:tint="@color/secondary_text"
+                    android:visibility="gone" />
+
+            </TableRow>
+
+
+            <ImageView
+                android:id="@+id/replyButton"
+                android:layout_width="@dimen/reply_tkt_img"
+                android:layout_height="@dimen/reply_tkt_img"
+                android:layout_gravity="center"
+                android:background="@drawable/curved_button_primary"
+                android:elevation="@dimen/card_elevation"
+                android:padding="@dimen/padding_normal"
+                android:src="@drawable/ic_send" />
+
+        </TableRow>
+
+    </RelativeLayout>
+</LinearLayout>

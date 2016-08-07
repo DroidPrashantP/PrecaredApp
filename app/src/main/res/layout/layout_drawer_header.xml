@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/relativeLayout"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:background="@color/primary"
+    android:fitsSystemWindows="true"
+    android:paddingBottom="@dimen/padding_large"
+    android:paddingTop="@dimen/padding_large"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+    <ImageView
+        android:id="@+id/userImage"
+        android:layout_width="@dimen/profile_pic_image_width"
+        android:layout_height="@dimen/profile_pic_image_width"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerInParent="true"
+        android:layout_margin="@dimen/margin_normal"
+        android:src="@drawable/ic_photo" />
+
+    <LinearLayout
+        android:id="@+id/ll_user_profile"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:layout_margin="@dimen/margin_normal"
+        android:layout_toRightOf="@+id/userImage"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/userNameTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_white"
+            android:textSize="@dimen/text_size_large"
+            android:textStyle="bold"
+            android:text="Prashant Patil"/>
+
+        <TextView
+            android:id="@+id/userEmailTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
+            android:textColor="@color/text_white_grey"
+            android:textSize="@dimen/text_size_small"
+            android:text="paddypatil90@gmail.com"/>
+    </LinearLayout>
+</RelativeLayout>

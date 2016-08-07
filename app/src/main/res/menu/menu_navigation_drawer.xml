@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/group_main"
+        android:checkableBehavior="none">
+        <item
+            android:id="@+id/item_home"
+            android:icon="@drawable/home"
+            android:title="@string/text_home" />
+        <item
+            android:id="@+id/item_seller"
+            android:icon="@drawable/pendin_icon"
+            android:title="@string/seller_text" />
+        <item
+            android:id="@+id/item_chat"
+            android:icon="@drawable/chat_icon"
+            android:title="@string/text_chat" />
+        <item
+            android:id="@+id/item_logout"
+            android:icon="@drawable/logout"
+            android:title="@string/text_logout" />
+        <item
+            android:id="@+id/item_refer_and_earn"
+            android:icon="@drawable/refer"
+            android:title="@string/text_refer_and_earn" />
+    </group>
+</menu>

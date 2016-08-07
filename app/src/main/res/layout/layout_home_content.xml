@@ -1,0 +1,94 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_bg"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_toolbar" />
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gray_bg"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/margin_normal"
+            android:descendantFocusability="blocksDescendants"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Welcome to Precared"
+                android:textStyle="bold"
+                android:textSize="@dimen/text_size_xlarge"
+                android:layout_marginTop="30dp"
+
+                android:padding="@dimen/padding_normal"
+                />
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/chatWithAdmin"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/curved_button_primary"
+                android:elevation="@dimen/card_elevation"
+                android:padding="@dimen/padding_normal"
+                android:text="Chat With Admin"
+                android:textSize="@dimen/text_size_normal"
+                android:layout_marginTop="20dp"
+                android:textColor="@android:color/white" />
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/addProductBtn"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/curved_button_primary"
+                android:elevation="@dimen/card_elevation"
+                android:padding="@dimen/padding_normal"
+                android:text="@string/seller_text"
+                android:textSize="@dimen/text_size_normal"
+                android:layout_marginTop="20dp"
+                android:textColor="@android:color/white" />
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/productListBtn"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/curved_button_primary"
+                android:elevation="@dimen/card_elevation"
+                android:padding="@dimen/padding_normal"
+                android:text="@string/product_list_text"
+                android:textSize="@dimen/text_size_normal"
+                android:layout_marginTop="20dp"
+                android:visibility="gone"
+                android:textColor="@android:color/white" />
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/knowMoreBtn"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/curved_button_primary"
+                android:elevation="@dimen/card_elevation"
+                android:padding="@dimen/padding_normal"
+                android:layout_marginTop="@dimen/margin_xlarge"
+                android:text="@string/know_more_text"
+                android:textSize="@dimen/text_size_normal"
+                android:onClick="onClickKnowMore"
+                android:textColor="@android:color/white" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
+
