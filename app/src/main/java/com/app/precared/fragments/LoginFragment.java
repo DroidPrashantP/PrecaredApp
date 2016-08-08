@@ -36,6 +36,7 @@ import com.app.precared.utils.PrecaredSharePreferences;
 import com.app.precared.utils.StringUtils;
 import com.app.precared.utils.Utils;
 import com.app.precared.utils.VolleyController;
+import com.segment.analytics.Analytics;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -84,6 +85,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Tex
         initView(view);
         precaredSharePreferences = new PrecaredSharePreferences(getActivity());
         mLoginApi = new LoginApi(getActivity(), this);
+        Utils.hitGoogleAnalytics(getActivity(), Constants.GoogleAnalyticKey.LOGIN_FRAGMENT);
+        Analytics.with(getActivity()).screen(null,Constants.GoogleAnalyticKey.LOGIN_FRAGMENT);
     }
 
     /**

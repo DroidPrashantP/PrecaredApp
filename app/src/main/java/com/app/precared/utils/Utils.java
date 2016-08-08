@@ -19,9 +19,12 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 
+import com.app.precared.PrecaredApplication;
 import com.app.precared.R;
 import com.app.precared.activities.LoginActivity;
 import com.app.precared.interfaces.Constants;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
@@ -245,5 +248,36 @@ public class Utils {
         }
         return pInfo != null ? pInfo.versionCode : 0;
     }
+
+    /**
+     * Send google analytics hit event and sets the screen name that will be visible in analytics
+     *
+     * @param activity
+     */
+    public static void hitGoogleAnalytics(Activity activity, String screenName) {
+        // Get tracker.
+        Tracker t = ((PrecaredApplication) activity.getApplication()).getTracker(PrecaredApplication.TrackerName.APP_TRACKER);
+        // Set screen name.
+        t.setScreenName(screenName);
+        // Send a screen view.
+        t.send(new HitBuilders.ScreenViewBuilder().build());
+    }
+
+    /**
+     * Send google analytics hit event and sets the event name that will be visible in analytics
+     *
+     * @param activity
+     * @param eventName
+     * @param category
+     */
+    public static void hitGoogleAnalytics(Activity activity, String eventName, String category) {
+        // Get tracker.
+        Tracker t = ((PrecaredApplication) activity.getApplication()).getTracker(PrecaredApplication.TrackerName.APP_TRACKER);
+        t.send(new HitBuilders.EventBuilder()
+                .setCategory(category)
+                .setAction(eventName)
+                .build());
+    }
+
 
 }

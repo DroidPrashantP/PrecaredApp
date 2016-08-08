@@ -45,6 +45,7 @@ import com.app.precared.utils.PrecaredSharePreferences;
 import com.app.precared.utils.StringUtils;
 import com.app.precared.utils.Utils;
 import com.app.precared.utils.VolleyController;
+import com.segment.analytics.Analytics;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -98,6 +99,8 @@ public class ChatActivity extends AppCompatActivity implements Constants.MyChatK
                 }
             }
         };
+        Utils.hitGoogleAnalytics(this, Constants.GoogleAnalyticKey.CHAT_LISTING);
+        Analytics.with(this).screen(null,Constants.GoogleAnalyticKey.CHAT_LISTING);
     }
 
     private void initialization() {
@@ -145,6 +148,29 @@ public class ChatActivity extends AppCompatActivity implements Constants.MyChatK
                             Log.d(TAG, "" + response);
                             Utils.closeProgress();
                             ShowSnackbar("Your message successfully sent.");
+                            try {
+                                JSONObject mainObject = new JSONObject(response);
+                                JSONObject jsonObject = mainObject.getJSONObject("data");
+                                MyChats myChats = new MyChats();
+                                myChats.sender_id = jsonObject.getString(SENDER_ID);
+                                myChats.recevier_id = jsonObject.getString(RECEIVER_ID);
+                                myChats.sender_name = jsonObject.getString(SENDER_NAME);
+                                myChats.recevier_name = jsonObject.getString(RECEIVER_NAME);
+                                myChats.message = jsonObject.getString(MESSAGES);
+                                myChats.id = jsonObject.getString(ID);
+                                myChats.image_url = JSONUtil.getJSONString(jsonObject, IMAGE_URL);
+                                mTicketsList.add(0, myChats);
+
+                                replyEditText.setText("");
+                                if (mAdapter != null) {
+                                    mAdapter.notifyItemInserted(mTicketsList.size() + 1);
+                                    mRecyclerView.scrollToPosition(mTicketsList.size() - 1);
+                                }
+                                if(mSelectedImagesLayout!=null)
+                                    mSelectedImagesLayout.removeAllViews();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
 
                         }
                     }, new Response.ErrorListener() {

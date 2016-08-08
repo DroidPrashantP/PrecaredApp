@@ -174,4 +174,14 @@ public interface Constants {
         //Maximum number of images that can be selected at a time
         int limit = 1;
     }
+
+    interface GoogleAnalyticKey {
+        String ADD_SELLER_PRODUCT = "add seller product";
+        String CHAT_LISTING = "chat listing";
+        String HOME_ACTIVITY = "Home Page";
+        String LOGIN_ACTIVITY = "Login page";
+        String LOGIN_FRAGMENT = "Login";
+        String SIGN_UP_FRAGMENT = "Sign up";
+        String SELLER_ACTIVITY = "Seller page";
+    }
 }

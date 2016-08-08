@@ -28,6 +28,7 @@ import com.app.precared.models.Seller;
 import com.app.precared.utils.JSONUtil;
 import com.app.precared.utils.PrecaredSharePreferences;
 import com.app.precared.utils.Utils;
+import com.segment.analytics.Analytics;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -61,6 +62,8 @@ public class SellerActivity extends AppCompatActivity implements SellerApi.Selle
         intitialization();
         executeSellerRequest("all");
         executeSellerCountsRequest();
+        Utils.hitGoogleAnalytics(this, Constants.GoogleAnalyticKey.SELLER_ACTIVITY);
+        Analytics.with(this).screen(null,Constants.GoogleAnalyticKey.SELLER_ACTIVITY);
     }
 
     /**

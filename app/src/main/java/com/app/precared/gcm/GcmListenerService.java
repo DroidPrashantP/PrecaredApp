@@ -47,9 +47,9 @@ public class GcmListenerService extends com.google.android.gms.gcm.GcmListenerSe
                 message = jsonObject.getString("message");
             }
 
-            if (jsonObject.has("name"));{
-                message = jsonObject.getString("name");
-            }
+//            if (jsonObject.has("name"));{
+//                message = jsonObject.getString("name");
+//            }
         } catch (JSONException e) {
             e.printStackTrace();
         }

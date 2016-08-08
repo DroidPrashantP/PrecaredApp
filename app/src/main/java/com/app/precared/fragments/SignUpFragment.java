@@ -39,6 +39,7 @@ import com.app.precared.utils.PrecaredSharePreferences;
 import com.app.precared.utils.StringUtils;
 import com.app.precared.utils.Utils;
 import com.app.precared.utils.VolleyController;
+import com.segment.analytics.Analytics;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -99,7 +100,8 @@ public class SignUpFragment extends Fragment implements LoginApi.SignUpListener,
                 }
             }
         });
-
+        Utils.hitGoogleAnalytics(getActivity(), Constants.GoogleAnalyticKey.SIGN_UP_FRAGMENT);
+        Analytics.with(getActivity()).screen(null,Constants.GoogleAnalyticKey.LOGIN_FRAGMENT);
     }
 
     private void initView(View view) {

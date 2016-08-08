@@ -21,8 +21,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.app.precared.R;
+import com.app.precared.interfaces.Constants;
 import com.app.precared.utils.PrecaredSharePreferences;
 import com.app.precared.utils.StringUtils;
+import com.app.precared.utils.Utils;
+import com.segment.analytics.Analytics;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -45,6 +48,8 @@ public class HomeActivity extends AppCompatActivity {
         findIDs();
         initializeNavigationDrawer();
         setUpHeaderView();
+        Utils.hitGoogleAnalytics(this, Constants.GoogleAnalyticKey.HOME_ACTIVITY);
+        Analytics.with(this).screen(null,Constants.GoogleAnalyticKey.HOME_ACTIVITY);
     }
 
     private void findIDs() {

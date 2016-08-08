@@ -121,7 +121,11 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.TicketViewHold
             holder.body.setTextColor(mContext.getResources().getColor(R.color.secondary_text));
             holder.viewLeft.setVisibility(View.VISIBLE);
             holder.viewRight.setVisibility(View.GONE);
-
+            LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams(holder.attachmentLayout.getWidth(), holder.attachmentLayout.getHeight());
+            layoutParams.gravity=Gravity.RIGHT;
+            holder.image.setLayoutParams(layoutParams);
+            holder.image.setMaxWidth(100);
+            holder.image.setMaxHeight(100);
         } else {
             bodyParams.setMargins(5, 0, 0, 0);
             params.gravity = Gravity.START;
@@ -131,6 +135,11 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.TicketViewHold
             holder.body.setTextColor(mContext.getResources().getColor(R.color.text_white));
             holder.viewRight.setVisibility(View.VISIBLE);
             holder.viewLeft.setVisibility(View.GONE);
+            LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams(holder.attachmentLayout.getWidth(), holder.attachmentLayout.getHeight());
+            layoutParams.gravity=Gravity.LEFT;
+            holder.image.setLayoutParams(layoutParams);
+            holder.image.setMaxWidth(100);
+            holder.image.setMaxHeight(100);
         }
 
     }

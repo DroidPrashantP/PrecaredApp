@@ -26,6 +26,8 @@ import com.app.precared.utils.NetworkManager;
 import com.app.precared.utils.PrecaredSharePreferences;
 import com.app.precared.utils.Utils;
 import com.app.precared.utils.VolleyController;
+import com.segment.analytics.Analytics;
+import com.segment.analytics.Properties;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -61,6 +63,8 @@ public class LoginActivity extends AppCompatActivity {
         mPrecaredSharePreferences = new PrecaredSharePreferences(this);
         setupViewPager();
         registerDevice();
+        Utils.hitGoogleAnalytics(this, Constants.GoogleAnalyticKey.LOGIN_ACTIVITY);
+        Analytics.with(this).screen(null,Constants.GoogleAnalyticKey.LOGIN_ACTIVITY);
 
     }
 

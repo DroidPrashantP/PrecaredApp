@@ -74,6 +74,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:visibility="gone"
+            android:layout_gravity="right"
             android:src="@drawable/place_product"
             android:layout_margin="@dimen/margin_small" />
 

@@ -27,6 +27,7 @@ import com.app.precared.utils.NetworkManager;
 import com.app.precared.utils.PrecaredSharePreferences;
 import com.app.precared.utils.Utils;
 import com.app.precared.utils.VolleyController;
+import com.segment.analytics.Analytics;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -55,6 +56,8 @@ public class AddSellerProduct extends AppCompatActivity {
         mPrecaredSharePreferences = new PrecaredSharePreferences(this);
         setToolbar();
         mapIDs();
+        Utils.hitGoogleAnalytics(this, Constants.GoogleAnalyticKey.ADD_SELLER_PRODUCT);
+        Analytics.with(this).screen(null,Constants.GoogleAnalyticKey.ADD_SELLER_PRODUCT);
     }
 
     /**
