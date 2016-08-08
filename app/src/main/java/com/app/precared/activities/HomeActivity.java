@@ -126,6 +126,7 @@ public class HomeActivity extends AppCompatActivity {
         if (mNavigationView != null) {
             setUpDrawerContent(mNavigationView);
         }
+
     }
 
     /**
