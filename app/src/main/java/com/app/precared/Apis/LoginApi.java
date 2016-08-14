@@ -100,6 +100,7 @@ public class LoginApi implements Constants.LoginKeys {
                 params.put(CONFIRM_PASSWORD, login.password);
                 params.put(NUMBER, login.number);
                 params.put(GCM_REGISTRATION_TOKEN, mPreference.getRegistrationId());
+              //  params.put(REFFERAL_CODE, ""+login.referral_code);
                 return params;
             }
         };

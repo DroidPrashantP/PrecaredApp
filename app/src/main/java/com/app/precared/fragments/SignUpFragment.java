@@ -55,7 +55,7 @@ public class SignUpFragment extends Fragment implements LoginApi.SignUpListener,
 
     private static final String TAG = SignUpFragment.class.getSimpleName();
     private Button mSignupBtn;
-    private TextInputLayout mNameTextInputLayout, mEmailTextInputLayout, mPasswordTextInputLayout, mConfirmPasswordTextInputLayout, mNumberTextInputLayout;
+    private TextInputLayout mNameTextInputLayout, mEmailTextInputLayout, mPasswordTextInputLayout, mConfirmPasswordTextInputLayout, mNumberTextInputLayout, mReferralTextInputLayout;
     private LoginApi mLoginApi;
     private TextInputEditText mPassword, mConfirmPassword;
     private boolean isVisible = false;
@@ -111,6 +111,7 @@ public class SignUpFragment extends Fragment implements LoginApi.SignUpListener,
         mPasswordTextInputLayout = (TextInputLayout) view.findViewById(R.id.passwordTextInputLayout);
         mConfirmPasswordTextInputLayout = (TextInputLayout) view.findViewById(R.id.confirmpasswordTextInputLayout);
         mNumberTextInputLayout = (TextInputLayout) view.findViewById(R.id.numberTextInputLayout);
+        mReferralTextInputLayout = (TextInputLayout) view.findViewById(R.id.refferalTextInputLayout);
         mPassword = (TextInputEditText) view.findViewById(R.id.passwordEditText);
         mConfirmPassword = (TextInputEditText) view.findViewById(R.id.confirmpasswordEditText);
         mVisibilityView = (ImageView) view.findViewById(R.id.visibilityView);
@@ -133,8 +134,9 @@ public class SignUpFragment extends Fragment implements LoginApi.SignUpListener,
             String email = mEmailTextInputLayout.getEditText().getText().toString();
             String password = mPasswordTextInputLayout.getEditText().getText().toString();
             String number = mNumberTextInputLayout.getEditText().getText().toString();
+            String referralCode = mReferralTextInputLayout.getEditText().getText().toString();
             Utils.showProgress(getActivity(), Constants.VolleyRequestTags.EMAIL_SIGNUP);
-            mLoginApi.doEmailSignUpVolley(new Login(name, email, password, number));
+            mLoginApi.doEmailSignUpVolley(new Login(name, email, password, number, referralCode));
         }
     }
 

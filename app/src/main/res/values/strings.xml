@@ -86,4 +86,5 @@
     <string name="phone_numer_error">Please enter mobile number</string>
     <string name="text_refer_and_earn" >Refer a Friend</string>
     <string name="confirm_password_text">Confirm Password</string>
+    <string name="referral_code_text">Refferal Code</string>
 </resources>

@@ -52,12 +52,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.TicketViewHold
         holder.body.setText(mychats.message);
         Log.e("UserID", ""+mPrecaredSharePreferences.getUserId());
 
-        if (StringUtils.isNotEmpty(mychats.image_url)){
-            holder.image.setVisibility(View.VISIBLE);
-            Picasso.with(mContext).load(mychats.image_url).placeholder(R.drawable.place_product).into(holder.image);
-        }else {
-            holder.image.setVisibility(View.GONE);
-        }
 
        // setAttachmentLayout(holder, mPrecaredSharePreferences.getUserId().equalsIgnoreCase(mychats.sender_id), mychats);
         if (mPrecaredSharePreferences.getUserId() == mychats.sender_id) {
@@ -121,11 +115,18 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.TicketViewHold
             holder.body.setTextColor(mContext.getResources().getColor(R.color.secondary_text));
             holder.viewLeft.setVisibility(View.VISIBLE);
             holder.viewRight.setVisibility(View.GONE);
-            LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams(holder.attachmentLayout.getWidth(), holder.attachmentLayout.getHeight());
-            layoutParams.gravity=Gravity.RIGHT;
-            holder.image.setLayoutParams(layoutParams);
-            holder.image.setMaxWidth(100);
-            holder.image.setMaxHeight(100);
+//            LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams(holder.attachmentLayout.getWidth(), holder.attachmentLayout.getHeight());
+//            layoutParams.gravity=Gravity.RIGHT;
+//            holder.image.setLayoutParams(layoutParams);
+            if (StringUtils.isNotEmpty(mychats.image_url)){
+                holder.imageRight.setVisibility(View.VISIBLE);
+                holder.imageLeft.setVisibility(View.GONE);
+                Picasso.with(mContext).load(mychats.image_url).placeholder(R.drawable.place_product).into(holder.imageRight);
+            }else {
+                holder.imageRight.setVisibility(View.GONE);
+                holder.imageLeft.setVisibility(View.GONE);
+            }
+
         } else {
             bodyParams.setMargins(5, 0, 0, 0);
             params.gravity = Gravity.START;
@@ -135,11 +136,16 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.TicketViewHold
             holder.body.setTextColor(mContext.getResources().getColor(R.color.text_white));
             holder.viewRight.setVisibility(View.VISIBLE);
             holder.viewLeft.setVisibility(View.GONE);
-            LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams(holder.attachmentLayout.getWidth(), holder.attachmentLayout.getHeight());
-            layoutParams.gravity=Gravity.LEFT;
-            holder.image.setLayoutParams(layoutParams);
-            holder.image.setMaxWidth(100);
-            holder.image.setMaxHeight(100);
+            if (StringUtils.isNotEmpty(mychats.image_url)){
+                holder.imageRight.setVisibility(View.GONE);
+                holder.imageLeft.setVisibility(View.VISIBLE);
+                Picasso.with(mContext).load(mychats.image_url).placeholder(R.drawable.place_product).into(holder.imageLeft);
+            }else {
+                holder.imageRight.setVisibility(View.GONE);
+                holder.imageLeft.setVisibility(View.GONE);
+            }
+
+
         }
 
     }
@@ -157,7 +163,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.TicketViewHold
         private TableRow tableRow;
         private View viewLeft, viewRight;
         private LinearLayout bodyLayout, attachmentLayout;
-        private ImageView image;
+        private ImageView imageRight, imageLeft;
 
         public TicketViewHolder(View itemView) {
             super(itemView);
@@ -168,7 +174,8 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.TicketViewHold
             viewLeft = itemView.findViewById(R.id.viewLeft);
             viewRight = itemView.findViewById(R.id.viewRight);
             bodyLayout = (LinearLayout) itemView.findViewById(R.id.bodyLayout);
-            image = (ImageView) itemView.findViewById(R.id.image);
+            imageRight = (ImageView) itemView.findViewById(R.id.imageRight);
+            imageLeft = (ImageView) itemView.findViewById(R.id.imageLeft);
             attachmentLayout = (LinearLayout) itemView.findViewById(R.id.attachmentLayout);
         }
     }

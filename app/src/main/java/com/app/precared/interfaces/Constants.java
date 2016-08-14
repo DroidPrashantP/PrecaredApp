@@ -96,6 +96,7 @@ public interface Constants {
         String ACCESS_TOKEN = "access_token";
         String NUMBER = "phone";
         String CONFIRM_PASSWORD = "password_confirmation";
+        String REFFERAL_CODE = "referral_code";
     }
 
     interface VolleyRequestTags {
