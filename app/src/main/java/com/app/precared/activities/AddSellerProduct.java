@@ -3,16 +3,22 @@ package com.app.precared.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TableRow;
 import android.widget.Toast;
 
@@ -23,8 +29,10 @@ import com.app.precared.R;
 import com.app.precared.interfaces.Constants;
 import com.app.precared.models.Image;
 import com.app.precared.utils.CustomMultipartRequest;
+import com.app.precared.utils.JSONUtil;
 import com.app.precared.utils.NetworkManager;
 import com.app.precared.utils.PrecaredSharePreferences;
+import com.app.precared.utils.StringUtils;
 import com.app.precared.utils.Utils;
 import com.app.precared.utils.VolleyController;
 import com.segment.analytics.Analytics;
@@ -45,9 +53,12 @@ public class AddSellerProduct extends AppCompatActivity {
     private EditText mProdName, mProdDesc, mProdDefects, mProdShippingAddress;
     private Button mSubmit;
     private TableRow mAttachmentLayout;
-    private LinearLayout mMainLayout;
+    private RelativeLayout mMainLayout;
     private ArrayList<String> mFilePathList = new ArrayList<String>();
     private PrecaredSharePreferences mPrecaredSharePreferences;
+    private NestedScrollView mNestedScrollView;
+    private CheckBox mAutoFillCheckBox;
+    private EditText mEdtLine1, mEdtLine2, mEdtCity, mEdtState, mEdtPincode, mEdtPhone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,17 +69,29 @@ public class AddSellerProduct extends AppCompatActivity {
         mapIDs();
         Utils.hitGoogleAnalytics(this, Constants.GoogleAnalyticKey.ADD_SELLER_PRODUCT);
         Analytics.with(this).screen(null,Constants.GoogleAnalyticKey.ADD_SELLER_PRODUCT);
+
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        int screenHeight = displaymetrics.heightPixels;
+
+        int actionBarHeight = 0;
+        TypedValue tv = new TypedValue();
+        if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
+            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,getResources().getDisplayMetrics());
+        }
+
+        mNestedScrollView.setMinimumHeight(screenHeight - actionBarHeight);
     }
 
     /**
      * map view ids
      */
     private void mapIDs() {
-        mMainLayout = (LinearLayout) findViewById(R.id.mainWrapper);
+        mNestedScrollView = (NestedScrollView) findViewById(R.id.nestedScrollView);
+        mMainLayout = (RelativeLayout) findViewById(R.id.mainWrapper);
         mProdName = (EditText) findViewById(R.id.edtProductName);
         mProdDesc = (EditText) findViewById(R.id.edtProductDesc);
         mProdDefects = (EditText) findViewById(R.id.edtProductDefects);
-        mProdShippingAddress = (EditText) findViewById(R.id.edtAddress);
         mAttachmentLayout = (TableRow) findViewById(R.id.attachmentLayout);
         mSubmit = (Button) findViewById(R.id.btnSubmit);
         mSubmit.setOnClickListener(new View.OnClickListener() {
@@ -83,6 +106,63 @@ public class AddSellerProduct extends AppCompatActivity {
                 attachFile();
             }
         });
+        mAutoFillCheckBox = (CheckBox) findViewById(R.id.checkBox);
+        mEdtLine1 = (EditText) findViewById(R.id.edtAddressLine1);
+        mEdtLine2 = (EditText) findViewById(R.id.edtAddressLine2);
+        mEdtCity = (EditText) findViewById(R.id.edtAddressCity);
+        mEdtState = (EditText) findViewById(R.id.edtAddressState);
+        mEdtPincode = (EditText) findViewById(R.id.edtAddressPincode);
+        mEdtPhone= (EditText) findViewById(R.id.edtAddressMobile);
+        mAutoFillCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b){
+                    if (StringUtils.isNotEmpty(mPrecaredSharePreferences.getAddress())) {
+                        JSONObject addressObj = null;
+                        try {
+                            addressObj = new JSONObject(mPrecaredSharePreferences.getAddress());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        if (StringUtils.isNotEmpty(addressObj.toString())) {
+                            mEdtLine1.setText(JSONUtil.getJSONString(addressObj, "line1"));
+                            mEdtLine2.setText(JSONUtil.getJSONString(addressObj, "line2"));
+                            mEdtCity.setText(JSONUtil.getJSONString(addressObj, "city"));
+                            mEdtState.setText(JSONUtil.getJSONString(addressObj, "state"));
+                            mEdtPincode.setText(JSONUtil.getJSONString(addressObj, "pincode"));
+                            mEdtPhone.setText(JSONUtil.getJSONString(addressObj, "mobile_no"));
+                        }
+                    }
+
+                }else {
+                    mEdtLine1.setText("");
+                    mEdtLine2.setText("");
+                    mEdtCity.setText("");
+                    mEdtState.setText("");
+                    mEdtPhone.setText("");
+                    mEdtPincode.setText("");
+                }
+            }
+        });
+
+        if(mAutoFillCheckBox.isChecked()){
+            if (StringUtils.isNotEmpty(mPrecaredSharePreferences.getAddress())) {
+                JSONObject addressObj = null;
+                try {
+                    addressObj = new JSONObject(mPrecaredSharePreferences.getAddress());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                if (StringUtils.isNotEmpty(addressObj.toString())) {
+                    mEdtLine1.setText(JSONUtil.getJSONString(addressObj, "line1"));
+                    mEdtLine2.setText(JSONUtil.getJSONString(addressObj, "line2"));
+                    mEdtCity.setText(JSONUtil.getJSONString(addressObj, "city"));
+                    mEdtState.setText(JSONUtil.getJSONString(addressObj, "state"));
+                    mEdtPincode.setText(JSONUtil.getJSONString(addressObj, "pincode"));
+                    mEdtPhone.setText(JSONUtil.getJSONString(addressObj, "mobile_no"));
+                }
+            }
+        }
     }
 
     /**

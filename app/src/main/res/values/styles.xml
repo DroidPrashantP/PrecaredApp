@@ -50,6 +50,7 @@
         <item name="actionModeStyle">@style/CustomActionModeStyle</item>
         <item name="windowActionModeOverlay">true</item>
     </style>
+
     <style name="CustomActionModeStyle" parent="Base.Widget.AppCompat.ActionMode">
         <item name="background">@color/primary</item>
     </style>

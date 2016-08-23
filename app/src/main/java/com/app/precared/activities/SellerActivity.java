@@ -50,6 +50,7 @@ public class SellerActivity extends AppCompatActivity implements SellerApi.Selle
     private RelativeLayout mPendingLayout, mInProgressLayout, mLiveLayout, mReturnLayout, mNewLayout, mAllLayout;
     private TextView merrorMsg;
     private TextView mListWrapper;
+    private TextView amountEarnedText,amountPendingText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +61,14 @@ public class SellerActivity extends AppCompatActivity implements SellerApi.Selle
         setToolbar();
         findViewByIds();
         intitialization();
-        executeSellerRequest("all");
-        executeSellerCountsRequest();
+
+        Bundle bundle = getIntent().getExtras();
+        if (bundle!=null){
+            executeSellerRequest(bundle.getString("sub_type"));
+        }else {
+            executeSellerRequest("all");
+        }
+        //executeSellerCountsRequest();
         Utils.hitGoogleAnalytics(this, Constants.GoogleAnalyticKey.SELLER_ACTIVITY);
         Analytics.with(this).screen(null,Constants.GoogleAnalyticKey.SELLER_ACTIVITY);
     }
@@ -71,7 +78,7 @@ public class SellerActivity extends AppCompatActivity implements SellerApi.Selle
      * @param type
      */
     private void executeSellerRequest(String type) {
-        mListWrapper.setText(type.toUpperCase().replace("_"," ") +" Product");
+        mListWrapper.setText(type.toUpperCase().replace("_"," ") +getResources().getString(R.string.product_text));
         Utils.showProgress(this, Constants.SellerKeys.API_SELLER_LISTING);
         mSellerApi.executeSellerRequest(mPrecaredSharePreferences.getAccessToken(), type);
     }
@@ -97,6 +104,9 @@ public class SellerActivity extends AppCompatActivity implements SellerApi.Selle
      * mapping ids
      */
     private void findViewByIds() {
+        amountEarnedText = (TextView) findViewById(R.id.amountEarnedText);
+        amountPendingText = (TextView) findViewById(R.id.amountPendingtext);
+
         mPendingCount = (TextView) findViewById(R.id.pending_count);
         mInProgressCount = (TextView) findViewById(R.id.progress_count);
         mLiveCount = (TextView) findViewById(R.id.live_count);
@@ -175,15 +185,22 @@ public class SellerActivity extends AppCompatActivity implements SellerApi.Selle
                         seller.display_state = JSONUtil.getJSONString(dataArray.getJSONObject(i), Constants.SellerKeys.DISPLAY_STATE);
                         seller.image_url = JSONUtil.getJSONString(dataArray.getJSONObject(i), Constants.SellerKeys.IMAGE_URL);
                         seller.view_count = JSONUtil.getJSONString(dataArray.getJSONObject(i), Constants.SellerKeys.VIEW_COUNT);
-                        if (dataArray.getJSONObject(i).has("seller")) {
-                            JSONObject sellerObject = dataArray.getJSONObject(i).getJSONObject("seller");
-                            seller.selleName = JSONUtil.getJSONString(sellerObject, Constants.SellerKeys.SELLER_NAME);
-                            seller.selleEmail = JSONUtil.getJSONString(sellerObject, Constants.SellerKeys.SELLER_EMAIL);
-                            seller.selleID = JSONUtil.getJSONString(sellerObject, Constants.SellerKeys.SELLER_ID);
-                        }
+//                        if (dataArray.getJSONObject(i).has("seller")) {
+//                            JSONObject sellerObject = dataArray.getJSONObject(i).getJSONObject("seller");
+//                            seller.selleName = JSONUtil.getJSONString(sellerObject, Constants.SellerKeys.SELLER_NAME);
+//                            seller.selleEmail = JSONUtil.getJSONString(sellerObject, Constants.SellerKeys.SELLER_EMAIL);
+//                            seller.selleID = JSONUtil.getJSONString(sellerObject, Constants.SellerKeys.SELLER_ID);
+//                        }
+
+                        seller.selleName =mPrecaredSharePreferences.getName();
+                        seller.selleEmail = mPrecaredSharePreferences.getEmail();
+                        seller.selleID = mPrecaredSharePreferences.getUserId();
                         mSellersList.add(seller);
                     }
+                    setSellerEarnData();
                     setSellerAdapter();
+                     JSONObject sellerRequestsCount = jsonObject.getJSONObject("seller_request_details");
+                     setSellerDashboardCount(sellerRequestsCount);
 
                 } else {
                     mRecyclerView.setVisibility(View.GONE);
@@ -198,14 +215,19 @@ public class SellerActivity extends AppCompatActivity implements SellerApi.Selle
                 JSONObject jsonObject = new JSONObject(response);
                 JSONObject dataObject = jsonObject.getJSONObject("data");
                 String id = dataObject.getString("id");
-                JSONObject sellerRequestsCount = dataObject.getJSONObject("seller_requests");
-                setSellerDashboardCount(sellerRequestsCount);
+               // JSONObject sellerRequestsCount = dataObject.getJSONObject("seller_requests");
+               // setSellerDashboardCount(sellerRequestsCount);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
         }
 
+    }
+
+    private void setSellerEarnData() {
+        amountEarnedText.setText("Rs "+mPrecaredSharePreferences.getAmountEarned());
+        amountPendingText.setText("Rs "+mPrecaredSharePreferences.getAmountPending());
     }
 
     /**

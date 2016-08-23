@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mainLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/divider_light"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:padding="@dimen/margin_small"
+            android:layout_height="match_parent" />
+
+    </RelativeLayout>
+</LinearLayout>
+<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--android:id="@+id/noInternetConnectionWrapper"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_weight="1"-->
+    <!--android:descendantFocusability="blocksDescendants"-->
+    <!--android:orientation="vertical"-->
+    <!--android:visibility="visible">-->
+
+    <!--<ImageView-->
+        <!--android:id="@+id/noInternetImage"-->
+        <!--android:layout_width="100dp"-->
+        <!--android:layout_height="100dp"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:layout_marginTop="150dp"-->
+        <!--android:src="@drawable/chat_icon" />-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/textView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:gravity="center"-->
+        <!--android:paddingBottom="@dimen/padding_large"-->
+        <!--android:paddingLeft="@dimen/padding_large"-->
+        <!--android:paddingRight="@dimen/padding_large"-->
+        <!--android:paddingTop="@dimen/padding_small"-->
+        <!--android:text="No Status available"-->
+        <!--android:textSize="@dimen/text_size_large" />-->
+
+<!--</LinearLayout>-->

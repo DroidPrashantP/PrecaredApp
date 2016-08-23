@@ -147,7 +147,8 @@ public class ChatActivity extends AppCompatActivity implements Constants.MyChatK
                         public void onResponse(String response) {
                             Log.d(TAG, "" + response);
                             Utils.closeProgress();
-                            ShowSnackbar("Your message successfully sent.");
+                            //ShowSnackbar("Your message successfully sent.");
+                            Toast.makeText(ChatActivity.this, "Your message successfully sent.", Toast.LENGTH_SHORT).show();
                             try {
                                 JSONObject mainObject = new JSONObject(response);
                                 JSONObject jsonObject = mainObject.getJSONObject("data");
@@ -159,6 +160,7 @@ public class ChatActivity extends AppCompatActivity implements Constants.MyChatK
                                 myChats.message = jsonObject.getString(MESSAGES);
                                 myChats.id = jsonObject.getString(ID);
                                 myChats.image_url = JSONUtil.getJSONString(jsonObject, IMAGE_URL);
+                                myChats.chat_time = JSONUtil.getJSONString(jsonObject, CHAT_TIME);
                                 mTicketsList.add(0, myChats);
 
                                 replyEditText.setText("");
@@ -204,6 +206,7 @@ public class ChatActivity extends AppCompatActivity implements Constants.MyChatK
             myChats.message = jsonObject.getString(MESSAGES);
             myChats.id = jsonObject.getString(ID);
             myChats.image_url = JSONUtil.getJSONString(jsonObject, IMAGE_URL);
+            myChats.chat_time = JSONUtil.getJSONString(jsonObject, CHAT_TIME);
             mTicketsList.add(myChats);
 
         } catch (JSONException e) {
@@ -291,6 +294,7 @@ public class ChatActivity extends AppCompatActivity implements Constants.MyChatK
                     myChats.message = jsonObject.getString(MESSAGES);
                     myChats.id = jsonObject.getString(ID);
                     myChats.image_url = JSONUtil.getJSONString(jsonObject, IMAGE_URL);
+                    myChats.chat_time = JSONUtil.getJSONString(jsonObject, CHAT_TIME);
                     mTicketsList.add(0, myChats);
 
                     replyEditText.setText("");

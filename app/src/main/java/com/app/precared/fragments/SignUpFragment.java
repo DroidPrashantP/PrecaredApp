@@ -192,6 +192,12 @@ public class SignUpFragment extends Fragment implements LoginApi.SignUpListener,
                     mPrecaredSharePreferences.setEmail(dataObject.getString(Constants.LoginKeys.EMAIL));
                     mPrecaredSharePreferences.setName(dataObject.getString(Constants.LoginKeys.NAME));
                     mPrecaredSharePreferences.setAccessToken(dataObject.getString(Constants.LoginKeys.ACCESS_TOKEN));
+                    mPrecaredSharePreferences.setReferralCode(dataObject.getString(Constants.LoginKeys.REFERRAL_CODE));
+                    mPrecaredSharePreferences.setReferralUrl(dataObject.getString(Constants.LoginKeys.REF_URL));
+                    mPrecaredSharePreferences.setReferralMsg(dataObject.getString(Constants.LoginKeys.REFERRAL_MESSAGE));
+                    mPrecaredSharePreferences.setAmountEarned(dataObject.getString(Constants.LoginKeys.AMOUNT_EARNED));
+                    mPrecaredSharePreferences.setAmountPending(dataObject.getString(Constants.LoginKeys.AMOUNT_PENDING));
+                    //  precaredSharePreferences.setAddress(dataObject.getString(Constants.LoginKeys.ADDRESS));
 
                     Snackbar.make(mainLayoutWrapper," "+msg,Snackbar.LENGTH_SHORT).show();
 

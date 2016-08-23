@@ -28,9 +28,10 @@
     <permission
         android:name="com.app.precared.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
-    <uses-permission android:name="com.app.precared.permission.C2D_MESSAGE" />
-    <!-- [END gcm_permission] -->
 
+    <uses-permission android:name="com.app.precared.permission.C2D_MESSAGE" />
+
+    <!-- [END gcm_permission] -->
     <application
         android:name=".PrecaredApplication"
         android:allowBackup="true"
@@ -66,7 +67,6 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-
         <service
             android:name=".gcm.GcmListenerService"
             android:exported="false">
@@ -85,22 +85,22 @@
             android:name=".activities.ChatActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_chat"
+            android:parentActivityName=".activities.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/FullscreenTheme"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            android:parentActivityName=".activities.HomeActivity"/>
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".activities.ProductListing" />
         <activity
             android:name=".activities.AddSellerProduct"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_add_seller_product"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activities.SellerActivity"
             android:label="@string/title_activity_seller"
-            android:theme="@style/AppTheme"></activity>
-
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.AlbumSelectActivity"
             android:screenOrientation="portrait"
@@ -117,6 +117,8 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity android:name=".activities.SellerNotificationActivity" />
+        <activity android:name=".activities.EditProfileActivity"></activity>
     </application>
 
 </manifest>

@@ -40,7 +40,20 @@
                 android:background="@drawable/curved_button_primary"
                 android:elevation="@dimen/card_elevation"
                 android:padding="@dimen/padding_normal"
-                android:text="Chat With Admin"
+                android:text="Chat Support"
+                android:textSize="@dimen/text_size_normal"
+                android:layout_marginTop="20dp"
+                android:textColor="@android:color/white" />
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/addSellerRequest"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/curved_button_primary"
+                android:elevation="@dimen/card_elevation"
+                android:padding="@dimen/padding_normal"
+                android:text="@string/add_product_text"
                 android:textSize="@dimen/text_size_normal"
                 android:layout_marginTop="20dp"
                 android:textColor="@android:color/white" />
@@ -53,10 +66,11 @@
                 android:background="@drawable/curved_button_primary"
                 android:elevation="@dimen/card_elevation"
                 android:padding="@dimen/padding_normal"
-                android:text="@string/seller_text"
+                android:text="@string/my_accounts_text"
                 android:textSize="@dimen/text_size_normal"
                 android:layout_marginTop="20dp"
                 android:textColor="@android:color/white" />
+
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/productListBtn"
@@ -73,7 +87,7 @@
                 android:textColor="@android:color/white" />
 
             <android.support.v7.widget.AppCompatButton
-                android:id="@+id/knowMoreBtn"
+                android:id="@+id/referFriendBtn"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -81,7 +95,7 @@
                 android:elevation="@dimen/card_elevation"
                 android:padding="@dimen/padding_normal"
                 android:layout_marginTop="@dimen/margin_xlarge"
-                android:text="@string/know_more_text"
+                android:text="@string/text_refer_and_earn"
                 android:textSize="@dimen/text_size_normal"
                 android:onClick="onClickKnowMore"
                 android:textColor="@android:color/white" />

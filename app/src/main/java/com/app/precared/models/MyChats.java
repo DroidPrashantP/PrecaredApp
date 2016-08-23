@@ -13,5 +13,6 @@ public class MyChats {
     public String recevier_name;
     public String id;
     public String image_url;
+    public String chat_time;
 
 }

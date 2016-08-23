@@ -34,7 +34,7 @@ public class HomeActivity extends AppCompatActivity {
     private NavigationView mNavigationView;
     private Menu mMenu;
     private RelativeLayout mHeaderView;
-    private Button mChatWithAdmin, mAddProduct, mProductList, mKnowMore;
+    private Button mChatWithAdmin, mAddProduct, mProductList,mAddSellerRequest, mReferFriend;
     private PrecaredSharePreferences mPrecaredSharePreferences;
     private TextView mUserNameTextView;
     private TextView mUserEmailTextView;
@@ -56,7 +56,8 @@ public class HomeActivity extends AppCompatActivity {
         mChatWithAdmin = (Button) findViewById(R.id.chatWithAdmin);
         mAddProduct = (Button) findViewById(R.id.addProductBtn);
         mProductList = (Button) findViewById(R.id.productListBtn);
-        mKnowMore = (Button) findViewById(R.id.knowMoreBtn);
+        mAddSellerRequest = (Button) findViewById(R.id.addSellerRequest);
+        mReferFriend = (Button) findViewById(R.id.referFriendBtn);
 
         mChatWithAdmin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,11 +78,22 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(new Intent(HomeActivity.this, ProductListing.class));
             }
         });
-
-        mKnowMore.setOnClickListener(new View.OnClickListener() {
+        mAddSellerRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(HomeActivity.this, "Coming Soon", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(HomeActivity.this, AddSellerProduct.class));
+            }
+        });
+
+        mReferFriend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Intent sendIntent = new Intent();
+                sendIntent.setType("text/plain");
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_SUBJECT, "Refer a Friend");
+                sendIntent.putExtra(Intent.EXTRA_TEXT, mPrecaredSharePreferences.getReferralMsg()+"\n"+mPrecaredSharePreferences.getReferralUrl()+"\n"+"User this code "+mPrecaredSharePreferences.getReferralCode());
+                startActivity(Intent.createChooser(sendIntent, "Refer"));
             }
         });
     }
@@ -145,16 +157,17 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
-                    case R.id.item_home:
+                    case R.id.item_edit_account:
                         mDrawerLayout.closeDrawers();
+                        startActivity(new Intent(HomeActivity.this, EditProfileActivity.class));
                         break;
-                    case R.id.item_seller:
+                    case R.id.item_my_account:
                         mDrawerLayout.closeDrawers();
                         startActivity(new Intent(HomeActivity.this, SellerActivity.class));
                         break;
-                    case R.id.item_chat:
+                    case R.id.item_notification:
                         mDrawerLayout.closeDrawers();
-                        startActivity(new Intent(HomeActivity.this, ChatActivity.class));
+                        startActivity(new Intent(HomeActivity.this, SellerNotificationActivity.class));
                         break;
                     case R.id.item_logout:
                         mDrawerLayout.closeDrawers();
@@ -166,7 +179,7 @@ public class HomeActivity extends AppCompatActivity {
                         sendIntent.setType("text/plain");
                         sendIntent.setAction(Intent.ACTION_SEND);
                         sendIntent.putExtra(Intent.EXTRA_SUBJECT, "Refer a Friend");
-                        sendIntent.putExtra(Intent.EXTRA_TEXT, "Refer body come here");
+                        sendIntent.putExtra(Intent.EXTRA_TEXT, mPrecaredSharePreferences.getReferralMsg()+"\n"+mPrecaredSharePreferences.getReferralUrl()+"\n"+"User this code "+mPrecaredSharePreferences.getReferralCode());
                         startActivity(Intent.createChooser(sendIntent, "Refer"));
                         break;
                 }

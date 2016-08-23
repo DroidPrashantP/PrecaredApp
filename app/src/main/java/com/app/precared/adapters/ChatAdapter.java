@@ -1,6 +1,12 @@
 package com.app.precared.adapters;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
+import android.os.Environment;
 import android.provider.SyncStateContract;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -10,17 +16,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.app.precared.R;
+import com.app.precared.activities.ChatActivity;
 import com.app.precared.interfaces.Constants;
 import com.app.precared.models.MyChats;
 import com.app.precared.utils.PrecaredSharePreferences;
 import com.app.precared.utils.StringUtils;
 import com.app.precared.utils.Utils;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.List;
 
 /**
@@ -31,6 +48,10 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.TicketViewHold
     private Context mContext;
     private List<MyChats> mTicketsList;
     private PrecaredSharePreferences mPrecaredSharePreferences;
+    // Progress Dialog
+    private ProgressDialog pDialog;
+    // Progress dialog type (0 - for Horizontal progress bar)
+    public static final int progress_bar_type = 0;
 
     public ChatAdapter(Context context, List<MyChats> ticketsList) {
         this.mTicketsList = ticketsList;
@@ -46,23 +67,36 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.TicketViewHold
 
     @Override
     public void onBindViewHolder(TicketViewHolder holder, int position) {
-        Log.e("pos", ""+position);
-        Log.e("size", ""+mTicketsList.size());
-        MyChats mychats = mTicketsList.get((mTicketsList.size()-1)- position);
+
+        final MyChats mychats = mTicketsList.get((mTicketsList.size()-1)- position);
         holder.body.setText(mychats.message);
-        Log.e("UserID", ""+mPrecaredSharePreferences.getUserId());
-
-
        // setAttachmentLayout(holder, mPrecaredSharePreferences.getUserId().equalsIgnoreCase(mychats.sender_id), mychats);
         if (mPrecaredSharePreferences.getUserId() == mychats.sender_id) {
-            holder.name.setText("By " + mychats.recevier_name);
-            Log.e("sender", ""+mychats.recevier_name);
+            holder.name.setText(mychats.recevier_name);
         }else {
-            holder.name.setText("By " + mychats.sender_name);
-            Log.e("receiver", ""+mychats.sender_name);
+            holder.name.setText(mychats.sender_name);
         }
-
+        holder.createdAt.setText(mychats.chat_time);
         setChatLayout(holder, mPrecaredSharePreferences.getUserId().equalsIgnoreCase(mychats.sender_id), mychats);
+
+        holder.downloadImageLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                downloadImage(mychats.image_url);
+            }
+        });
+        holder.downloadImageRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                downloadImage(mychats.image_url);
+            }
+        });
+    }
+
+    private void downloadImage(String image_url) {
+        if (StringUtils.isNotEmpty(image_url)) {
+            Picasso.with(mContext).load(image_url).into(target);
+        }
     }
 
     /***
@@ -113,18 +147,19 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.TicketViewHold
             holder.tableRow.setLayoutParams(params);
             holder.bodyLayout.setBackgroundResource(R.drawable.ic_me_bubble);
             holder.body.setTextColor(mContext.getResources().getColor(R.color.secondary_text));
+            holder.name.setTextColor(mContext.getResources().getColor(R.color.primary));
+            holder.createdAt.setTextColor(mContext.getResources().getColor(R.color.primary_text));
+            holder.name.setGravity(Gravity.LEFT);
+            holder.createdAt.setGravity(Gravity.RIGHT);
             holder.viewLeft.setVisibility(View.VISIBLE);
             holder.viewRight.setVisibility(View.GONE);
-//            LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams(holder.attachmentLayout.getWidth(), holder.attachmentLayout.getHeight());
-//            layoutParams.gravity=Gravity.RIGHT;
-//            holder.image.setLayoutParams(layoutParams);
             if (StringUtils.isNotEmpty(mychats.image_url)){
-                holder.imageRight.setVisibility(View.VISIBLE);
-                holder.imageLeft.setVisibility(View.GONE);
+                holder.RLImageRight.setVisibility(View.VISIBLE);
+                holder.RLImageLeft.setVisibility(View.GONE);
                 Picasso.with(mContext).load(mychats.image_url).placeholder(R.drawable.place_product).into(holder.imageRight);
             }else {
-                holder.imageRight.setVisibility(View.GONE);
-                holder.imageLeft.setVisibility(View.GONE);
+                holder.RLImageRight.setVisibility(View.GONE);
+                holder.RLImageLeft.setVisibility(View.GONE);
             }
 
         } else {
@@ -134,15 +169,19 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.TicketViewHold
             holder.tableRow.setLayoutParams(params);
             holder.bodyLayout.setBackgroundResource(R.drawable.ic_support_bubble);
             holder.body.setTextColor(mContext.getResources().getColor(R.color.text_white));
+            holder.name.setTextColor(mContext.getResources().getColor(R.color.text_white));
+            holder.createdAt.setTextColor(mContext.getResources().getColor(R.color.text_white_grey));
+            holder.name.setGravity(Gravity.LEFT);
+            holder.createdAt.setGravity(Gravity.RIGHT);
             holder.viewRight.setVisibility(View.VISIBLE);
             holder.viewLeft.setVisibility(View.GONE);
             if (StringUtils.isNotEmpty(mychats.image_url)){
-                holder.imageRight.setVisibility(View.GONE);
-                holder.imageLeft.setVisibility(View.VISIBLE);
+                holder.RLImageRight.setVisibility(View.GONE);
+                holder.RLImageLeft.setVisibility(View.VISIBLE);
                 Picasso.with(mContext).load(mychats.image_url).placeholder(R.drawable.place_product).into(holder.imageLeft);
             }else {
-                holder.imageRight.setVisibility(View.GONE);
-                holder.imageLeft.setVisibility(View.GONE);
+                holder.RLImageRight.setVisibility(View.GONE);
+                holder.RLImageLeft.setVisibility(View.GONE);
             }
 
 
@@ -164,12 +203,14 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.TicketViewHold
         private View viewLeft, viewRight;
         private LinearLayout bodyLayout, attachmentLayout;
         private ImageView imageRight, imageLeft;
+        private ImageView downloadImageRight, downloadImageLeft;
+        private RelativeLayout RLImageRight, RLImageLeft;
 
         public TicketViewHolder(View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.name);
             body = (TextView) itemView.findViewById(R.id.body);
-            createdAt = (TextView) itemView.findViewById(R.id.createdAtTextView);
+            createdAt = (TextView) itemView.findViewById(R.id.chatTime);
             tableRow = (TableRow) itemView.findViewById(R.id.tableRow);
             viewLeft = itemView.findViewById(R.id.viewLeft);
             viewRight = itemView.findViewById(R.id.viewRight);
@@ -177,6 +218,49 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.TicketViewHold
             imageRight = (ImageView) itemView.findViewById(R.id.imageRight);
             imageLeft = (ImageView) itemView.findViewById(R.id.imageLeft);
             attachmentLayout = (LinearLayout) itemView.findViewById(R.id.attachmentLayout);
+            RLImageRight = (RelativeLayout) itemView.findViewById(R.id.rightImageWrapper);
+            RLImageLeft = (RelativeLayout) itemView.findViewById(R.id.leftImageWrapper);
+            downloadImageLeft = (ImageView) itemView.findViewById(R.id.downloadImageLeft);
+            downloadImageRight = (ImageView) itemView.findViewById(R.id.downloadImageRight);
         }
     }
+
+
+    private Target target = new Target() {
+        @Override
+        public void onBitmapLoaded(final Bitmap bitmap, Picasso.LoadedFrom from) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+
+                    File file = new File(
+                            Environment.getExternalStorageDirectory().getPath()
+                                    + "/saved.jpg");
+                    Log.d("onBitmapLoaded",file.getPath());
+                    ((ChatActivity)mContext).runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(mContext, "Download Successfully", Toast.LENGTH_SHORT).show();                        }
+                    });
+
+                    try {
+                        file.createNewFile();
+                        FileOutputStream ostream = new FileOutputStream(file);
+                        bitmap.compress(Bitmap.CompressFormat.JPEG,100,ostream);
+                        ostream.close();
+                    }
+                    catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+        }
+
+        @Override
+        public void onBitmapFailed(Drawable errorDrawable) {}
+
+        @Override
+        public void onPrepareLoad(Drawable placeHolderDrawable) {}
+    };
+
+
 }

@@ -210,15 +210,15 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Tex
                     precaredSharePreferences.setEmail(dataObject.getString(Constants.LoginKeys.EMAIL));
                     precaredSharePreferences.setName(dataObject.getString(Constants.LoginKeys.NAME));
                     precaredSharePreferences.setAccessToken(dataObject.getString(Constants.LoginKeys.ACCESS_TOKEN));
+                    precaredSharePreferences.setReferralCode(dataObject.getString(Constants.LoginKeys.REFERRAL_CODE));
+                    precaredSharePreferences.setReferralUrl(dataObject.getString(Constants.LoginKeys.REF_URL));
+                    precaredSharePreferences.setReferralMsg(dataObject.getString(Constants.LoginKeys.REFERRAL_MESSAGE));
+                    precaredSharePreferences.setAmountEarned(dataObject.getString(Constants.LoginKeys.AMOUNT_EARNED));
+                    precaredSharePreferences.setAmountPending(dataObject.getString(Constants.LoginKeys.AMOUNT_PENDING));
 
-//                    if (precaredSharePreferences.getAccessToken()!= null) {
-//                        Intent intent = new Intent(Intent.ACTION_SYNC, null, getActivity(), GCMRegistrationIDService.class);
-//                        intent.putExtra("deviceToken", precaredSharePreferences.getAccessToken());
-//                        getActivity().startService(intent);
-//                    }
-//                    getActivity().startActivity(new Intent(getActivity(), HomeActivity.class));
-//                    getActivity().finish();
-                     registerDeviceToServer(precaredSharePreferences.getRegistrationId(), getActivity());
+                    precaredSharePreferences.setAddress(jsonObject.getString(Constants.LoginKeys.ADDRESS));
+
+                    registerDeviceToServer(precaredSharePreferences.getRegistrationId(), getActivity());
 
                 } else {
                     String msg = jsonObject.getString("message");

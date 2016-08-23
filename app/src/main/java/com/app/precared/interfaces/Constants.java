@@ -63,6 +63,7 @@ public interface Constants {
         String RECEIVER_NAME = "recevier_name";
         String ID = "id";
         String IMAGE_URL = "image_url";
+        String CHAT_TIME = "chat_time";
 
         String API_SEND_MSG = "send_message";
         String API_CHAT_LIST = "chat_list";
@@ -80,6 +81,12 @@ public interface Constants {
         String GCM_REGISTRATION_TOKEN = "gcm_reg_id";
         String DEVICE_NUMBER = "device_number";
         String DEVICE_TYPE = "device_type";
+        String REFERRAL_CODE = "referral_code";
+        String REF_URL = "ref_url";
+        String REFERRAL_MESSAGE = "referral_message";
+        String AMOUNT_EARNED = "amount_earned";
+        String AMOUNT_PENDING = "amount_pending";
+        String ADDRESS = "address";
     }
 
     interface LoginKeys {
@@ -96,7 +103,12 @@ public interface Constants {
         String ACCESS_TOKEN = "access_token";
         String NUMBER = "phone";
         String CONFIRM_PASSWORD = "password_confirmation";
-        String REFFERAL_CODE = "referral_code";
+        String REFERRAL_CODE = "referral_code";
+        String REF_URL = "ref_url";
+        String REFERRAL_MESSAGE = "referral_message";
+        String AMOUNT_EARNED = "amount_earned";
+        String AMOUNT_PENDING = "amount_pending";
+        String ADDRESS = "address";
     }
 
     interface VolleyRequestTags {

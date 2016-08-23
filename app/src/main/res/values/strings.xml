@@ -84,7 +84,24 @@
     <string name="gcm_defaultSenderId">12142512</string>
     <string name="name_empty_error">Please enter name</string>
     <string name="phone_numer_error">Please enter mobile number</string>
-    <string name="text_refer_and_earn" >Refer a Friend</string>
+    <string name="text_refer_and_earn">Refer a Friend</string>
     <string name="confirm_password_text">Confirm Password</string>
     <string name="referral_code_text">Refferal Code</string>
+    <string name="product_text">" Product"</string>
+    <string name="line1_text">Line1</string>
+    <string name="line2_text">Line2</string>
+    <string name="city_text">City</string>
+    <string name="state_text">State</string>
+    <string name="pincode_text">Pincode</string>
+    <string name="title_activity_notification">NotificationActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="statusNotification">Seller Status</string>
+    <string name="queryReponse">Query Reponse</string>
+    <string name="text_notification">Notification</string>
+    <string name="edit_accounts">Edit Account</string>
+    <string name="my_accounts_text">My Account</string>
+    <string name="first_name">First Name</string>
+    <string name="lastName_text">Last Name</string>
+    <string name="update_text">Update</string>
 </resources>

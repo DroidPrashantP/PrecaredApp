@@ -14,8 +14,10 @@ import android.util.Log;
 
 import com.app.precared.R;
 import com.app.precared.activities.ChatActivity;
-import com.app.precared.activities.HomeActivity;
+import com.app.precared.activities.SellerNotificationActivity;
 import com.app.precared.interfaces.Constants;
+import com.app.precared.models.NotificationRow;
+import com.app.precared.utils.NotificationDBHandler;
 import com.app.precared.utils.Utils;
 
 import org.json.JSONException;
@@ -35,50 +37,68 @@ public class GcmListenerService extends com.google.android.gms.gcm.GcmListenerSe
         super.onMessageReceived(from, data);
         broadcaster = LocalBroadcastManager.getInstance(this);
         // Bundle[{message=Hello, collapse_key=do_not_collapse}]
-
+        Log.e("BundleData", data.toString());
         String mainObject = data.getString("data");
-        Log.e("Reposne", ""+mainObject);
-        String message = "";
-        String name = "";
-
         try {
-            JSONObject jsonObject = new JSONObject(data.getString("data"));
-            if (jsonObject.has("message"));{
-                message = jsonObject.getString("message");
+            JSONObject mainJsonObject = new JSONObject(mainObject);
+            String type = mainJsonObject.getString("type");
+            String title = mainJsonObject.getString("title");
+            String description = mainJsonObject.getString("description");
+            String subType = "";
+            if(mainJsonObject.has("sub_type")){
+                subType = mainJsonObject.getString("sub_type");
             }
 
-//            if (jsonObject.has("name"));{
-//                message = jsonObject.getString("name");
-//            }
+            Log.e("Reposne", ""+mainObject);
+
+            if(("message").equalsIgnoreCase(type)){
+                // verifying whether the app is in background or foreground
+                if (!Utils.isAppIsInBackground(getApplicationContext())) {
+                    // app is in foreground, broadcast the push message
+                    Intent pushNotification = new Intent(Constants.PUSH_NOTIFICATION);
+                    pushNotification.putExtra("message", mainObject);
+                    LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification);
+
+                } else {
+                    try {
+                        JSONObject jsonObject = new JSONObject(mainJsonObject.getString("data"));
+                        if (jsonObject.has("message"));{
+                            description = jsonObject.getString("message");
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    createNotification(title, description,type,subType);
+                }
+            }
+            if(("seller_request").equalsIgnoreCase(type)){
+                createNotification(title, description,type,subType);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        // verifying whether the app is in background or foreground
-        if (!Utils.isAppIsInBackground(getApplicationContext())) {
-            // app is in foreground, broadcast the push message
-            Intent pushNotification = new Intent(Constants.PUSH_NOTIFICATION);
-            pushNotification.putExtra("message", mainObject);
-//            pushNotification.putExtra("chat_room_id", chatRoomId);
-            LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification);
-
-            // play notification sound
-            NotificationUtils notificationUtils = new NotificationUtils();
-            notificationUtils.playNotificationSound();
-        } else {
-
-            // app is in background. show the message in notification try
-//            Intent resultIntent = new Intent(getApplicationContext(), ChatRoomActivity.class);
-//            resultIntent.putExtra("chat_room_id", chatRoomId);
-            createNotification(name, message);        }
     }
 
     /**
      * @param title
      * @param description
      */
-    public void createNotification(String title, String description) {
+    public void createNotification(String title, String description, String type, String subtype) {
+        NotificationDBHandler notificationDBHandler = new NotificationDBHandler(this);
+        NotificationRow notificationRow = new NotificationRow(title, description, subtype);
+        notificationDBHandler.addNotification(notificationRow);
+
         Intent notificationIntent = new Intent(this, ChatActivity.class);
+        if(("message").equalsIgnoreCase(type)){
+           // title = "You got new message";
+            notificationIntent = new Intent(this, ChatActivity.class);
+        }
+        if(("seller_request").equalsIgnoreCase(type)){
+           // title = "Status";
+            notificationIntent = new Intent(this, SellerNotificationActivity.class);
+        }
 
         long when = System.currentTimeMillis();
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);

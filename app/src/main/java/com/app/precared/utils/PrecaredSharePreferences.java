@@ -84,4 +84,50 @@ public class PrecaredSharePreferences implements Constants.Preferences {
         mSharedPreferences.edit().putString(GCM_REGISTRATION_TOKEN, regId).apply();
 
     }
+
+    public String getReferralCode() {
+        return mSharedPreferences.getString(REFERRAL_CODE, "");
+    }
+
+    public void setReferralCode(String code) {
+        mSharedPreferences.edit().putString(REFERRAL_CODE, code).apply();
+    }
+
+    public String getReferralUrl() {
+        return mSharedPreferences.getString(REF_URL, "");
+    }
+
+    public void setReferralUrl(String url) {
+        mSharedPreferences.edit().putString(REF_URL, url).apply();
+    }
+    public String getReferralMsg() {
+        return mSharedPreferences.getString(REFERRAL_MESSAGE, "");
+    }
+
+    public void setReferralMsg(String message) {
+        mSharedPreferences.edit().putString(REFERRAL_MESSAGE, message).apply();
+    }
+    public String getAmountEarned() {
+        return mSharedPreferences.getString(AMOUNT_EARNED, "");
+    }
+
+    public void setAmountEarned(String AmountEarned) {
+        mSharedPreferences.edit().putString(AMOUNT_EARNED, AmountEarned).apply();
+    }
+
+    public String getAmountPending() {
+        return mSharedPreferences.getString(AMOUNT_PENDING, "");
+    }
+
+    public void setAmountPending(String AmountPending) {
+        mSharedPreferences.edit().putString(AMOUNT_PENDING, AmountPending).apply();
+    }
+
+    public String getAddress() {
+        return mSharedPreferences.getString(ADDRESS, "");
+    }
+
+    public void setAddress(String address) {
+        mSharedPreferences.edit().putString(ADDRESS, address).apply();
+    }
 }
