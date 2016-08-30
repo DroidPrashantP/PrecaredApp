@@ -15,3 +15,9 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+-dontwarn org.apache.**
+-dontwarn com.squareup.picasso.**
+-dontwarn android.net.**
+
+-keep public class org.apache.http.** { public *; }

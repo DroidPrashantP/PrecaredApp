@@ -32,7 +32,7 @@
     <string name="text_help">Help</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
-    <string name="add_product_text">Add Seller Request</string>
+    <string name="add_product_text">Start Selling</string>
     <string name="know_more_text">Know More</string>
 
     <string name="title_activity_chat">ChatActivity</string>
@@ -49,7 +49,7 @@
     <string name="desc_hint_text">Please enter product description</string>
     <string name="known_defect_text">Known Defects</string>
     <string name="any_defect">Any defects</string>
-    <string name="shipping_details">Shipping Details</string>
+    <string name="shipping_details">Pickup Address</string>
     <string name="address_text">Enter shipping address</string>
     <string name="upload_product_details">Upload Product Details</string>
     <string name="attach_file_text">Attach Photo</string>
@@ -104,4 +104,18 @@
     <string name="first_name">First Name</string>
     <string name="lastName_text">Last Name</string>
     <string name="update_text">Update</string>
+    <string name="lastName_empty_error">Last Name are not empty</string>
+    <string name="New_text">New</string>
+    <string name="accept_text">Accept</string>
+    <string name="picup_schedule_text">Pickup Schedule</string>
+    <string name="product_received_text">Product Received</string>
+    <string name="ready_text">Ready</string>
+    <string name="live_text">Live</string>
+    <string name="book_text">Booked</string>
+    <string name="sold_text">Sold</string>
+    <string name="paid_text">Paid</string>
+    <string name="on_hold_text">On hold</string>
+    <string name="mobile_error">mobile number is empty</string>
+    <string name="address_one_error">line 1 is empty</string>
+    <string name="my_address_text">My Addresses</string>
 </resources>

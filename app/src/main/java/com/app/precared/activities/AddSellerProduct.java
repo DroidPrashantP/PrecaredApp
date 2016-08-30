@@ -1,17 +1,24 @@
 package com.app.precared.activities;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -20,13 +27,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TableRow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.app.precared.Apis.SellerApi;
 import com.app.precared.R;
+import com.app.precared.adapters.AddressListAdapter;
 import com.app.precared.interfaces.Constants;
+import com.app.precared.models.Address;
 import com.app.precared.models.Image;
 import com.app.precared.utils.CustomMultipartRequest;
 import com.app.precared.utils.JSONUtil;
@@ -38,6 +49,7 @@ import com.app.precared.utils.VolleyController;
 import com.segment.analytics.Analytics;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -46,8 +58,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Handler;
 
-public class AddSellerProduct extends AppCompatActivity {
+public class AddSellerProduct extends AppCompatActivity implements SellerApi.AddressesListener, SellerApi.AddAddressesListener, SellerApi.SellerListener {
 
     private static final String TAG = AddSellerProduct.class.getName();
     private EditText mProdName, mProdDesc, mProdDefects, mProdShippingAddress;
@@ -57,14 +70,19 @@ public class AddSellerProduct extends AppCompatActivity {
     private ArrayList<String> mFilePathList = new ArrayList<String>();
     private PrecaredSharePreferences mPrecaredSharePreferences;
     private NestedScrollView mNestedScrollView;
-    private CheckBox mAutoFillCheckBox;
     private EditText mEdtLine1, mEdtLine2, mEdtCity, mEdtState, mEdtPincode, mEdtPhone;
+    private RecyclerView mAddressRecyclerview;
+    private SellerApi mSellerApi;
+    private TextView mAddAddressTextView;
+    private ArrayList<Address> addressArrayList;
+    private AddressListAdapter addressListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_seller_product);
         mPrecaredSharePreferences = new PrecaredSharePreferences(this);
+        mSellerApi = new SellerApi(this, this);
         setToolbar();
         mapIDs();
         Utils.hitGoogleAnalytics(this, Constants.GoogleAnalyticKey.ADD_SELLER_PRODUCT);
@@ -81,6 +99,12 @@ public class AddSellerProduct extends AppCompatActivity {
         }
 
         mNestedScrollView.setMinimumHeight(screenHeight - actionBarHeight);
+        getAddress();
+
+    }
+
+    private void getAddress() {
+        mSellerApi.getAddresses(mPrecaredSharePreferences.getAccessToken());
     }
 
     /**
@@ -106,63 +130,23 @@ public class AddSellerProduct extends AppCompatActivity {
                 attachFile();
             }
         });
-        mAutoFillCheckBox = (CheckBox) findViewById(R.id.checkBox);
         mEdtLine1 = (EditText) findViewById(R.id.edtAddressLine1);
         mEdtLine2 = (EditText) findViewById(R.id.edtAddressLine2);
         mEdtCity = (EditText) findViewById(R.id.edtAddressCity);
         mEdtState = (EditText) findViewById(R.id.edtAddressState);
         mEdtPincode = (EditText) findViewById(R.id.edtAddressPincode);
         mEdtPhone= (EditText) findViewById(R.id.edtAddressMobile);
-        mAutoFillCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        mAddressRecyclerview = (RecyclerView) findViewById(R.id.addressRecyclerview);
+        mAddressRecyclerview.setHasFixedSize(true);
+        mAddressRecyclerview.setNestedScrollingEnabled(false);
+        mAddressRecyclerview.setLayoutManager((new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)));
+        mAddAddressTextView = (TextView) findViewById(R.id.addAdreessText);
+        mAddAddressTextView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b){
-                    if (StringUtils.isNotEmpty(mPrecaredSharePreferences.getAddress())) {
-                        JSONObject addressObj = null;
-                        try {
-                            addressObj = new JSONObject(mPrecaredSharePreferences.getAddress());
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        if (StringUtils.isNotEmpty(addressObj.toString())) {
-                            mEdtLine1.setText(JSONUtil.getJSONString(addressObj, "line1"));
-                            mEdtLine2.setText(JSONUtil.getJSONString(addressObj, "line2"));
-                            mEdtCity.setText(JSONUtil.getJSONString(addressObj, "city"));
-                            mEdtState.setText(JSONUtil.getJSONString(addressObj, "state"));
-                            mEdtPincode.setText(JSONUtil.getJSONString(addressObj, "pincode"));
-                            mEdtPhone.setText(JSONUtil.getJSONString(addressObj, "mobile_no"));
-                        }
-                    }
-
-                }else {
-                    mEdtLine1.setText("");
-                    mEdtLine2.setText("");
-                    mEdtCity.setText("");
-                    mEdtState.setText("");
-                    mEdtPhone.setText("");
-                    mEdtPincode.setText("");
-                }
+            public void onClick(View view) {
+                showSuccessCustomAlert();
             }
         });
-
-        if(mAutoFillCheckBox.isChecked()){
-            if (StringUtils.isNotEmpty(mPrecaredSharePreferences.getAddress())) {
-                JSONObject addressObj = null;
-                try {
-                    addressObj = new JSONObject(mPrecaredSharePreferences.getAddress());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                if (StringUtils.isNotEmpty(addressObj.toString())) {
-                    mEdtLine1.setText(JSONUtil.getJSONString(addressObj, "line1"));
-                    mEdtLine2.setText(JSONUtil.getJSONString(addressObj, "line2"));
-                    mEdtCity.setText(JSONUtil.getJSONString(addressObj, "city"));
-                    mEdtState.setText(JSONUtil.getJSONString(addressObj, "state"));
-                    mEdtPincode.setText(JSONUtil.getJSONString(addressObj, "pincode"));
-                    mEdtPhone.setText(JSONUtil.getJSONString(addressObj, "mobile_no"));
-                }
-            }
-        }
     }
 
     /**
@@ -246,6 +230,7 @@ public class AddSellerProduct extends AppCompatActivity {
         params.put(Constants.SellerAddRequestKey.PRODUCT_Efects, mProdDesc.getText().toString());
         params.put(Constants.SellerAddRequestKey.PRODUCT_Category, "");
         params.put(Constants.Preferences.ACCESS_TOKEN, mPrecaredSharePreferences.getAccessToken());
+        params.put(Constants.SellerAddRequestKey.PRODUCT_ADDRESS_ID, ""+addressListAdapter.getAddressID());
 
         CustomMultipartRequest request = new CustomMultipartRequest(Request.Method.POST, Constants.URL.API_SELLER_REQUEST, new Response.Listener<String>() {
             @Override
@@ -253,6 +238,14 @@ public class AddSellerProduct extends AppCompatActivity {
                 Log.d(TAG, "" + response);
                 Utils.closeProgress();
                 ShowSnackbar("Your request submitted successfully.");
+
+                new android.os.Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                       finish();
+                    }
+                },1000);
+
 
             }
         }, new Response.ErrorListener() {
@@ -297,5 +290,129 @@ public class AddSellerProduct extends AppCompatActivity {
             onBackPressed();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void setAddressLayout(ArrayList<Address> addressArrayList){
+        addressListAdapter = new AddressListAdapter(this, addressArrayList);
+        mAddressRecyclerview.setAdapter(addressListAdapter);
+    }
+
+    @Override
+    public void onAddresses(String response) {
+            if (StringUtils.isNotEmpty(response)) {
+                try {
+                    addressArrayList = new ArrayList<Address>();
+                    JSONObject jsonObject = new JSONObject(response);
+                    if (jsonObject.has("primary_address")) {
+                        //JSONObject primaryAddress = jsonObject.getJSONObject("primary_address");
+                    }
+                    if (jsonObject.has("data")) {
+                        JSONArray allAddress = jsonObject.getJSONArray("data");
+                        if (allAddress.length() > 0) {
+                            for (int i = 0; i < allAddress.length(); i++) {
+                                JSONObject addressObj = allAddress.getJSONObject(i);
+                                addressArrayList.add(new Address(addressObj, (i == 0 ? true : false)));
+                            }
+                        }
+                    }
+
+                    if (addressArrayList.size() > 0) {
+                        mAddressRecyclerview.setVisibility(View.VISIBLE);
+                        setAddressLayout(addressArrayList);
+                    }else {
+                        mAddressRecyclerview.setVisibility(View.GONE);
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+    }
+
+    @Override
+    public void onAddAddresses(String response) {
+        Utils.closeProgress();
+        Log.e("onAddAddresses", response);
+        if (StringUtils.isNotEmpty(response)) {
+            try {
+                JSONObject jsonObject = new JSONObject(response);
+                if (jsonObject.has("data")) {
+                    JSONObject addressObj = jsonObject.getJSONObject("data");
+                    addressArrayList.add(new Address(addressObj, false));
+                }
+
+                if (addressArrayList.size() > 0) {
+                    Toast.makeText(AddSellerProduct.this, "Address added successfully.",Toast.LENGTH_SHORT).show();
+                    mAddressRecyclerview.setVisibility(View.VISIBLE);
+                    setAddressLayout(addressArrayList);
+                    //addressListAdapter.notifyDataSetChanged();
+                }else {
+                    mAddressRecyclerview.setVisibility(View.GONE);
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+
+    }
+
+    @Override
+    public void onError(VolleyError error) {
+        Log.e("onAddAddressesError", error.toString());
+        Utils.closeProgress();
+        Toast.makeText(AddSellerProduct.this, "Error",Toast.LENGTH_SHORT).show();
+
+    }
+
+    /**
+     * Create custom alert dialogue
+     */
+    public void showSuccessCustomAlert() {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.new_address_layout);
+        final EditText line1 = (EditText) dialog.findViewById(R.id.edtAddressLine1);
+        final EditText line2 = (EditText) dialog.findViewById(R.id.edtAddressLine2);
+        final EditText city = (EditText) dialog.findViewById(R.id.edtAddressCity);
+        final EditText state = (EditText) dialog.findViewById(R.id.edtAddressState);
+        final EditText pincode = (EditText) dialog.findViewById(R.id.edtAddressPincode);
+        final EditText mobile_number = (EditText) dialog.findViewById(R.id.edtAddressMobile);
+
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+        dialog.getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        dialog.findViewById(R.id.btnSubmit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (StringUtils.isNotEmpty(line1.getText().toString())){
+                                if (StringUtils.isNotEmpty(mobile_number.getText().toString())){
+                                    dialog.dismiss();
+                                    Utils.showProgress(AddSellerProduct.this, Constants.VolleyRequestTags.ADD_ADDRESS);
+                                    mSellerApi.addAddressesRequest(line1.getText().toString(),line2.getText().toString(),city.getText().toString(),state.getText().toString(),pincode.getText().toString(),mobile_number.getText().toString());
+                                }else {
+                                    line1.setError(getResources().getString(R.string.mobile_error));
+                                }
+                }else {
+                    line1.setError(getResources().getString(R.string.address_one_error));
+                }
+
+            }
+        });
+
+    }
+
+    @Override
+    public void onSeller(String response, String apiType) {
+
+    }
+
+    @Override
+    public void onError(VolleyError error, String apiType) {
+
     }
 }

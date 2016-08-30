@@ -280,4 +280,7 @@ public class Utils {
     }
 
 
+    public static int dpToPx(int i) {
+        return 0;
+    }
 }

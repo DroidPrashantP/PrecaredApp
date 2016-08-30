@@ -1,0 +1,42 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+
+    <!--different margins-->
+    <dimen name="margin_very_small">5dp</dimen>
+    <dimen name="margin_small">8dp</dimen>
+    <dimen name="margin_normal">12dp</dimen>
+    <dimen name="margin_large">18dp</dimen>
+    <dimen name="margin_xlarge">25dp</dimen>
+    <dimen name="margin_xxlarge">30dp</dimen>
+
+    <!--different padding-->
+    <dimen name="padding_very_small">5dp</dimen>
+    <dimen name="padding_small">8dp</dimen>
+    <dimen name="padding_normal">12dp</dimen>
+    <dimen name="padding_large">18dp</dimen>
+    <dimen name="padding_xlarge">25dp</dimen>
+    <dimen name="padding_xxlarge">30dp</dimen>
+
+    <!-- different text sizes-->
+    <dimen name="text_size_small">14sp</dimen>
+    <dimen name="text_size_normal">16sp</dimen>
+    <dimen name="text_size_large">18sp</dimen>
+    <dimen name="text_size_xlarge">20sp</dimen>
+    <dimen name="text_size_xxlarge">22sp</dimen>
+    <dimen name="card_elevation">2dp</dimen>
+    <dimen name="card_radius">4dp</dimen>
+    <dimen name="card_padding">10dp</dimen>
+    <dimen name="login_or_btn_image_size">60dp</dimen>
+    <dimen name="toolbar_elevation">4dp</dimen>
+    <dimen name="profile_pic_image_width">120dp</dimen>
+    <dimen name="reply_tkt_img">40dp</dimen>
+    <dimen name="min_rating_star_bar_height">30dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="default_progress_bar">50dp</dimen>
+    <dimen name="appbar_padding_top">8dp</dimen>
+    <dimen name="transaction_tracking_ht">90dp</dimen>
+    <dimen name="tracking_circle">15dp</dimen>
+</resources>

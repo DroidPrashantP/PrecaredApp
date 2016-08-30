@@ -39,7 +39,17 @@ public class JSONUtil {
         }
     }
 
-
+    public static boolean getJSONBoolean(JSONObject jsonObject, String key) {
+        try {
+            if (jsonObject.has(key)) {
+                    return jsonObject.getBoolean(key);
+            } else {
+                return false;
+            }
+        } catch (JSONException e) {
+            return false;
+        }
+    }
     public static int getJSONIntValue(JSONObject jsonObject, String key) {
         try {
             if (jsonObject.has(key)) {

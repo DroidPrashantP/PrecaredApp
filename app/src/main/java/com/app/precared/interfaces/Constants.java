@@ -86,7 +86,11 @@ public interface Constants {
         String REFERRAL_MESSAGE = "referral_message";
         String AMOUNT_EARNED = "amount_earned";
         String AMOUNT_PENDING = "amount_pending";
+        String TOTOL_AMOUNT_EARNED = "total_amount_earned";
         String ADDRESS = "address";
+        String FIRST_NAME = "first_name";
+        String LAST_NAME = "last_name";
+        String PHONE = "phone";
     }
 
     interface LoginKeys {
@@ -99,6 +103,7 @@ public interface Constants {
         String EMAIL = "email";
         String NAME = "name";
         String FIRST_NAME = "first_name";
+        String LAST_NAME = "last_name";
         String PASSWORD = "password";
         String ACCESS_TOKEN = "access_token";
         String NUMBER = "phone";
@@ -108,6 +113,7 @@ public interface Constants {
         String REFERRAL_MESSAGE = "referral_message";
         String AMOUNT_EARNED = "amount_earned";
         String AMOUNT_PENDING = "amount_pending";
+        String TOTOL_AMOUNT_EARNED = "total_amount_earned";
         String ADDRESS = "address";
     }
 
@@ -121,10 +127,14 @@ public interface Constants {
         String DEVICE_REGISTRAION = "device registration";
         String GCM_REGISTRAION_AFTER_LOGIN = "gcm regostraion after login";
         String EMAIL_SIGNUP = "email signup";
+        String UPDATE_PROFILE = "update";
+        String ADD_ADDRESS = "add address";
+        String UPDATE_SELLER_PRODUCT = "update seller product";
     }
 
     interface URL {
-        String BASE_URL = "http://staging.precared.com/";
+        //String BASE_URL = "http://staging.precared.com/";
+        String BASE_URL = "http://www.precared.com/";
         String API_LOGIN = BASE_URL+"api/v1/auth/login.json";
         String API_SIGNUP = BASE_URL+"api/v1/auth/sign_up.json";
         String API_Seller = BASE_URL+"api/v1/seller_requests/";
@@ -134,7 +144,10 @@ public interface Constants {
         String API_DEVICE_GCM_REGISTRAION = BASE_URL +"api/v1/devices/register_user_device.json";
         String API_SELLER_COUNTS = BASE_URL+"api/v1/users.json";
         String API_DEVICE_REGISTRATION = BASE_URL+"api/v1/devices.json";
+        String API_UPDATE_PROFILE = BASE_URL+"api/v1/users.json";
+        String API_GET_ADDRESSES = BASE_URL+"api/v1/addresses.json";
 
+        String UPDATE_SELLER_PRODUCT = BASE_URL + "api/v1/seller_requests/";;
     }
 
     interface SellerKeys {
@@ -153,7 +166,13 @@ public interface Constants {
         String API_SELLER_COUNTS = "seller count";
         String SELLER_NAME = "name";
         String SELLER_EMAIL = "email";
-        String SELLER_ID = "id";
+        String MY_PRICE = "my_price";
+        String PRECARED_PRICE = "precared_price";
+        String REFURBISH_PRICE = "refurbish_cost";
+        String SERVICE_TAX = "service_tax";
+        String CAN_PUBLISH = "can_publish";
+        String CAN_HOLD = "can_hold";
+
     }
 
     interface SellerAddRequestKey {
@@ -161,7 +180,7 @@ public interface Constants {
             String PRODUCT_DESCRIPTION = "description";
             String PRODUCT_Efects = "defects";
             String PRODUCT_Category= "category_id";
-            String PRODUCT_ADDRESS = "address";
+            String PRODUCT_ADDRESS_ID = "address_id";
             String PHOTO_IMAGE = "image";
 
     }

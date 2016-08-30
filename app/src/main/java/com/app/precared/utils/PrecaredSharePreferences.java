@@ -50,6 +50,29 @@ public class PrecaredSharePreferences implements Constants.Preferences {
         mSharedPreferences.edit().putString(NAME, name).apply();
     }
 
+    public String getFirstName() {
+        return mSharedPreferences.getString(FIRST_NAME, "");
+    }
+
+    public void setFirstName(String name) {
+        mSharedPreferences.edit().putString(FIRST_NAME, name).apply();
+    }
+    public String getLastName() {
+        return mSharedPreferences.getString(LAST_NAME, "");
+    }
+
+    public void setLastName(String name) {
+        mSharedPreferences.edit().putString(LAST_NAME, name).apply();
+    }
+
+    public String getPhoneNumber() {
+        return mSharedPreferences.getString(PHONE, "");
+    }
+
+    public void setPhoneNumber(String phoneName) {
+        mSharedPreferences.edit().putString(PHONE, phoneName).apply();
+    }
+
     public String getEmail() {
         return mSharedPreferences.getString(EMAIL, "");
     }
@@ -121,6 +144,13 @@ public class PrecaredSharePreferences implements Constants.Preferences {
 
     public void setAmountPending(String AmountPending) {
         mSharedPreferences.edit().putString(AMOUNT_PENDING, AmountPending).apply();
+    }
+    public String getTotalAmountEarned() {
+        return mSharedPreferences.getString(TOTOL_AMOUNT_EARNED, "");
+    }
+
+    public void setTotalAmountEarned(String amount) {
+        mSharedPreferences.edit().putString(TOTOL_AMOUNT_EARNED, amount).apply();
     }
 
     public String getAddress() {

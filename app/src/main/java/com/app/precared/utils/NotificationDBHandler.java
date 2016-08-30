@@ -25,6 +25,7 @@ public class NotificationDBHandler extends SQLiteOpenHelper {
     private static final String KEY_NotificationNAME = "Title";
     private static final String KEY_Notification_DESC = "Desc";
     private static final String KEY_Notification_SUBTYPE = "subtype";
+    private static final String KEY_Notification_DATE = "date";
 
     public NotificationDBHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -34,8 +35,8 @@ public class NotificationDBHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_NotificationDbRowS_TABLE = "CREATE TABLE " + TABLE_Notification + "("
-                + KEY_NotificationID + " INTEGER PRIMARY KEY," + KEY_NotificationNAME + " TEXT,"+ KEY_Notification_SUBTYPE + " TEXT,"
-                + KEY_Notification_DESC + " TEXT" + ")";
+                + KEY_NotificationID + " INTEGER PRIMARY KEY," + KEY_NotificationNAME + " TEXT,"+ KEY_Notification_DESC + " TEXT,"+KEY_Notification_SUBTYPE + " TEXT,"
+                + KEY_Notification_DATE + " TEXT" + ")";
         db.execSQL(CREATE_NotificationDbRowS_TABLE);
     }
 
@@ -60,6 +61,7 @@ public class NotificationDBHandler extends SQLiteOpenHelper {
         values.put(KEY_NotificationNAME, notificationRow.title);
         values.put(KEY_Notification_DESC, notificationRow.desc);
         values.put(KEY_Notification_SUBTYPE, notificationRow.subType);
+        values.put(KEY_Notification_DATE, notificationRow.dateText);
 
         if (!isNotificationAvailable(notificationRow.id)) {
             // Inserting Row
@@ -78,7 +80,7 @@ public class NotificationDBHandler extends SQLiteOpenHelper {
             cursor.moveToFirst();
 
         NotificationRow GetLinkNotification = new NotificationRow(
-                cursor.getString(0), cursor.getString(1),cursor.getString(2));
+                cursor.getString(1), cursor.getString(2),cursor.getString(3),cursor.getString(4));
         // return GetLinkNotification
         return GetLinkNotification;
     }
@@ -87,7 +89,7 @@ public class NotificationDBHandler extends SQLiteOpenHelper {
     public boolean isNotificationAvailable(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(TABLE_Notification, new String[]{KEY_NotificationID,
-                        KEY_NotificationNAME, KEY_Notification_DESC}, KEY_NotificationID + "=?",
+                        KEY_NotificationNAME, KEY_Notification_DESC,KEY_Notification_SUBTYPE,KEY_Notification_DATE}, KEY_NotificationID + "=?",
                 new String[]{String.valueOf(id)}, null, null, null, null);
         if (cursor != null)
             return cursor.getCount() > 0 ? true : false;
@@ -109,7 +111,7 @@ public class NotificationDBHandler extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 NotificationRow notificationRow = new NotificationRow(
-                        cursor.getString(1), cursor.getString(2),cursor.getString(3));
+                        cursor.getString(1), cursor.getString(2),cursor.getString(3),cursor.getString(4));
                 // Adding GetLinkNotification to list
                 notificationRowList.add(notificationRow);
             } while (cursor.moveToNext());
@@ -124,9 +126,10 @@ public class NotificationDBHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_NotificationNAME, notificationRow.title); // GetLinkNotification Name
-        values.put(KEY_Notification_DESC, notificationRow.desc); // GetLinkNotification Phone
-        values.put(KEY_Notification_SUBTYPE, notificationRow.subType); // GetLinkNotification Phone
+        values.put(KEY_NotificationNAME, notificationRow.title);
+        values.put(KEY_Notification_DESC, notificationRow.desc); 
+        values.put(KEY_Notification_SUBTYPE, notificationRow.subType); 
+        values.put(KEY_Notification_DATE, notificationRow.dateText); 
 
         // updating row
         return db.update(TABLE_Notification, values, KEY_NotificationID + " = ?",

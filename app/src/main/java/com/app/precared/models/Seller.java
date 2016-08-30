@@ -16,4 +16,12 @@ public class Seller {
     public String selleName;
     public String selleEmail;
     public String selleID;
+    public String sellerPrice;
+    public String sellingPrice;
+    public String serviceTax;
+    public String refurbishCash;
+    public String precaredPrice;
+    public String myPrice;
+    public boolean canPublish;
+    public boolean canHold;
 }

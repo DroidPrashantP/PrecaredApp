@@ -23,6 +23,9 @@ import com.app.precared.utils.Utils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by Prashant.
  */
@@ -31,6 +34,7 @@ public class GcmListenerService extends com.google.android.gms.gcm.GcmListenerSe
     private static final int DEFAULT_DESCRIPTION_LENGTH = 50;
     private LocalBroadcastManager broadcaster;
     private String deal_id;
+    private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
 
     @Override
     public void onMessageReceived(String from, Bundle data) {
@@ -86,8 +90,9 @@ public class GcmListenerService extends com.google.android.gms.gcm.GcmListenerSe
      * @param description
      */
     public void createNotification(String title, String description, String type, String subtype) {
+        Log.e("Not", title + " "+ description + " "+ subtype);
         NotificationDBHandler notificationDBHandler = new NotificationDBHandler(this);
-        NotificationRow notificationRow = new NotificationRow(title, description, subtype);
+        NotificationRow notificationRow = new NotificationRow(title, description, subtype, new SimpleDateFormat(DATE_FORMAT).format(new Date()));
         notificationDBHandler.addNotification(notificationRow);
 
         Intent notificationIntent = new Intent(this, ChatActivity.class);

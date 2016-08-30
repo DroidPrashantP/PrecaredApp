@@ -6,10 +6,12 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 import com.segment.analytics.Analytics;
 
+import io.fabric.sdk.android.Fabric;
 import java.util.HashMap;
 
 /**
@@ -38,6 +40,7 @@ public class PrecaredApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
         PrecaredApplication.mContext = getApplicationContext();
         Analytics analytics = new Analytics.Builder(mContext, "dnYvfpExNQTYDmUVkOlLRBgR9nj8YPiP").build();
         Analytics.setSingletonInstance(analytics);

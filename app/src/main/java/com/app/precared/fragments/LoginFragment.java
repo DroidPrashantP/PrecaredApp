@@ -32,6 +32,7 @@ import com.app.precared.R;
 import com.app.precared.activities.HomeActivity;
 import com.app.precared.interfaces.Constants;
 import com.app.precared.models.Login;
+import com.app.precared.utils.JSONUtil;
 import com.app.precared.utils.PrecaredSharePreferences;
 import com.app.precared.utils.StringUtils;
 import com.app.precared.utils.Utils;
@@ -207,16 +208,17 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Tex
                     JSONObject dataObject = jsonObject.getJSONObject("data");
                     precaredSharePreferences.setLoggedIn(true);
                     precaredSharePreferences.setUserId("" + dataObject.getString(Constants.LoginKeys.UID));
-                    precaredSharePreferences.setEmail(dataObject.getString(Constants.LoginKeys.EMAIL));
-                    precaredSharePreferences.setName(dataObject.getString(Constants.LoginKeys.NAME));
-                    precaredSharePreferences.setAccessToken(dataObject.getString(Constants.LoginKeys.ACCESS_TOKEN));
-                    precaredSharePreferences.setReferralCode(dataObject.getString(Constants.LoginKeys.REFERRAL_CODE));
-                    precaredSharePreferences.setReferralUrl(dataObject.getString(Constants.LoginKeys.REF_URL));
-                    precaredSharePreferences.setReferralMsg(dataObject.getString(Constants.LoginKeys.REFERRAL_MESSAGE));
-                    precaredSharePreferences.setAmountEarned(dataObject.getString(Constants.LoginKeys.AMOUNT_EARNED));
-                    precaredSharePreferences.setAmountPending(dataObject.getString(Constants.LoginKeys.AMOUNT_PENDING));
+                    precaredSharePreferences.setEmail(JSONUtil.getJSONString(dataObject,Constants.LoginKeys.EMAIL));
+                    precaredSharePreferences.setName(JSONUtil.getJSONString(dataObject,Constants.LoginKeys.NAME));
+                    precaredSharePreferences.setAccessToken(JSONUtil.getJSONString(dataObject,Constants.LoginKeys.ACCESS_TOKEN));
+                    precaredSharePreferences.setReferralCode(JSONUtil.getJSONString(dataObject,Constants.LoginKeys.REFERRAL_CODE));
+                    precaredSharePreferences.setReferralUrl(JSONUtil.getJSONString(dataObject,Constants.LoginKeys.REF_URL));
+                    precaredSharePreferences.setReferralMsg(JSONUtil.getJSONString(dataObject,Constants.LoginKeys.REFERRAL_MESSAGE));
+                    precaredSharePreferences.setAmountEarned(JSONUtil.getJSONString(dataObject,Constants.LoginKeys.AMOUNT_EARNED));
+                    precaredSharePreferences.setAmountPending(JSONUtil.getJSONString(dataObject,Constants.LoginKeys.AMOUNT_PENDING));
+                    precaredSharePreferences.setTotalAmountEarned(JSONUtil.getJSONString(dataObject,Constants.LoginKeys.TOTOL_AMOUNT_EARNED));
 
-                    precaredSharePreferences.setAddress(jsonObject.getString(Constants.LoginKeys.ADDRESS));
+                    precaredSharePreferences.setAddress(JSONUtil.getJSONString(jsonObject, Constants.LoginKeys.ADDRESS));
 
                     registerDeviceToServer(precaredSharePreferences.getRegistrationId(), getActivity());
 
@@ -237,19 +239,17 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Tex
             Log.e(TAG, volleyError.toString());
             if (volleyError instanceof NoConnectionError) {
                 Toast.makeText(getActivity(), "Please connect to internet!", Toast.LENGTH_SHORT).show();
-            }
-//            else if (volleyError.networkResponse.statusCode == 201) {
-//                try {
-//                    String response = new String(volleyError.networkResponse.data);
-//                    JSONObject jsonResponse = new JSONObject(response);
-//                    Log.d(TAG, "" + jsonResponse);
-//                    Toast.makeText(getActivity(), "" + jsonResponse.getString("message"), Toast.LENGTH_SHORT).show();
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-            else if (volleyError instanceof ServerError) {
-                Toast.makeText(getActivity(), "Server Error", Toast.LENGTH_SHORT).show();
+            }else if (volleyError instanceof ServerError) {
+                try {
+                    String response = new String(volleyError.networkResponse.data);
+                    JSONObject jsonResponse = new JSONObject(response);
+                    Log.d(TAG, "" + jsonResponse);
+                    if (jsonResponse.has("message")) {
+                        Toast.makeText(getActivity(), "" + jsonResponse.getString("message"), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             } else if (volleyError instanceof AuthFailureError) {
                 Toast.makeText(getActivity(), "Please Check email and password!", Toast.LENGTH_SHORT).show();
             } else if (volleyError instanceof TimeoutError) {

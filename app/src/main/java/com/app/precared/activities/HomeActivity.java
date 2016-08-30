@@ -2,6 +2,7 @@ package com.app.precared.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -92,10 +93,16 @@ public class HomeActivity extends AppCompatActivity {
                 sendIntent.setType("text/plain");
                 sendIntent.setAction(Intent.ACTION_SEND);
                 sendIntent.putExtra(Intent.EXTRA_SUBJECT, "Refer a Friend");
-                sendIntent.putExtra(Intent.EXTRA_TEXT, mPrecaredSharePreferences.getReferralMsg()+"\n"+mPrecaredSharePreferences.getReferralUrl()+"\n"+"User this code "+mPrecaredSharePreferences.getReferralCode());
+                sendIntent.putExtra(Intent.EXTRA_TEXT, mPrecaredSharePreferences.getReferralMsg()+"\n"+mPrecaredSharePreferences.getReferralUrl());
                 startActivity(Intent.createChooser(sendIntent, "Refer"));
             }
         });
+
+//        rippleEffect(mChatWithAdmin);
+//        rippleEffect(mAddProduct);
+//        rippleEffect(mProductList);
+//        rippleEffect(mAddSellerRequest);
+//        rippleEffect(mReferFriend);
     }
 
     @Override
@@ -164,6 +171,10 @@ public class HomeActivity extends AppCompatActivity {
                     case R.id.item_my_account:
                         mDrawerLayout.closeDrawers();
                         startActivity(new Intent(HomeActivity.this, SellerActivity.class));
+                        break;
+                    case R.id.item_my_address:
+                        mDrawerLayout.closeDrawers();
+                        startActivity(new Intent(HomeActivity.this, MyAddressActivity.class));
                         break;
                     case R.id.item_notification:
                         mDrawerLayout.closeDrawers();
@@ -250,5 +261,12 @@ public class HomeActivity extends AppCompatActivity {
 
     public void onClickKnowMore(View view) {
 
+    }
+
+    public void rippleEffect(View view){
+        int[] attrs = new int[]{R.attr.selectableItemBackground};
+        TypedArray typedArray = this.obtainStyledAttributes(attrs);
+        int backgroundResource = typedArray.getResourceId(0, 0);
+        view.setBackgroundResource(backgroundResource);
     }
 }

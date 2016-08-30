@@ -18,7 +18,23 @@
         android:layout_marginLeft="@dimen/margin_small"
         android:layout_marginRight="@dimen/margin_small"
         android:layout_marginStart="@dimen/margin_small"
+        android:padding="@dimen/padding_small"
         android:layout_weight="1">
+
+
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text=""
+            android:textStyle="bold"
+            android:paddingBottom="@dimen/padding_small"
+            android:paddingLeft="@dimen/padding_small"
+            android:paddingRight="@dimen/padding_small"
+            android:textColor="@color/primary_text"
+            android:textSize="@dimen/text_size_normal" />
 
 
         <TextView
@@ -30,20 +46,19 @@
             android:layout_below="@+id/title"
             android:textColor="@color/secondary_text"
             android:textSize="@dimen/text_size_small"
-            android:text="bab"/>
+            android:text=""/>
 
         <TextView
-            android:id="@+id/title"
-            android:layout_width="match_parent"
+            android:id="@+id/dateText"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:text="gdsad dgsakjg jbasdgb"
-            android:textStyle="bold"
-            android:paddingBottom="@dimen/padding_small"
-            android:paddingLeft="@dimen/padding_small"
             android:paddingRight="@dimen/padding_small"
-            android:textColor="@color/primary_text"
-            android:textSize="@dimen/text_size_normal" />
+            android:paddingLeft="@dimen/padding_small"
+            android:layout_below="@+id/subTitle"
+            android:textColor="@color/primary"
+            android:textSize="@dimen/text_size_small"
+            android:text=""
+            android:layout_alignParentRight="true"/>
 
     </RelativeLayout>
 

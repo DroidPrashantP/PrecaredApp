@@ -1,4 +1,19 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+}
+
 
 android {
     compileSdkVersion 23
@@ -10,6 +25,7 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -44,5 +60,9 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'org.apache.httpcomponents:httpmime:4.3.5'
     compile 'org.apache.httpcomponents:httpcore:4.3.2'
-    compile 'com.google.android.gms:play-services:9.4.0'
+    compile 'com.google.android.gms:play-services-gcm:9.4.0'
+    compile 'com.google.android.gms:play-services-analytics:9.4.0'
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.2@aar') {
+        transitive = true;
+    }
 }

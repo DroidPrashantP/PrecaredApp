@@ -8,10 +8,12 @@ public class NotificationRow {
     public String desc;
     public String subType;
     public int id ;
+    public String dateText;
 
-    public NotificationRow(String titlestring, String description, String sub_type) {
+    public NotificationRow(String titlestring, String description, String sub_type, String datetext) {
         title = titlestring;
         desc = description;
         subType = sub_type;
+        dateText = datetext;
     }
 }

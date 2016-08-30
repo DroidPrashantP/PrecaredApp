@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/default_background"
+        android:fitsSystemWindows="true"
+        android:minWidth="300dp"
+        android:orientation="vertical"
+        android:padding="@dimen/padding_normal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_small"
+            android:layout_marginBottom="50dp"
+            android:padding="@dimen/padding_normal"
+            android:text="Add Address"
+            android:textColor="@color/primary"
+            android:textSize="@dimen/text_size_xlarge"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/edtAddressLine1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:gravity="top"
+            android:hint="@string/line1_text"
+            android:padding="@dimen/padding_normal"
+            android:textColor="@color/primary_text"
+            android:textColorHint="@color/secondary_text"
+            android:textSize="@dimen/text_size_normal" />
+
+        <EditText
+            android:id="@+id/edtAddressLine2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="@string/line2_text"
+            android:padding="@dimen/padding_normal"
+            android:textColor="@color/primary_text"
+            android:textColorHint="@color/secondary_text"
+            android:textSize="@dimen/text_size_normal" />
+
+        <EditText
+            android:id="@+id/edtAddressCity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="@string/city_text"
+            android:padding="@dimen/padding_normal"
+            android:textColor="@color/primary_text"
+            android:textColorHint="@color/secondary_text"
+            android:textSize="@dimen/text_size_normal" />
+
+        <EditText
+            android:id="@+id/edtAddressState"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="@string/state_text"
+            android:padding="@dimen/padding_normal"
+            android:textColor="@color/primary_text"
+            android:textColorHint="@color/secondary_text"
+            android:textSize="@dimen/text_size_normal" />
+
+        <EditText
+            android:id="@+id/edtAddressPincode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="@string/pincode_text"
+            android:padding="@dimen/padding_normal"
+            android:textColor="@color/primary_text"
+            android:textColorHint="@color/secondary_text"
+            android:textSize="@dimen/text_size_normal" />
+
+        <EditText
+            android:id="@+id/edtAddressMobile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="@string/phone_text"
+            android:maxLength="10"
+            android:padding="@dimen/padding_normal"
+            android:textColor="@color/primary_text"
+            android:textColorHint="@color/secondary_text"
+            android:textSize="@dimen/text_size_normal" />
+
+        <Button
+            android:id="@+id/btnSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="50dp"
+            android:layout_marginLeft="@dimen/margin_normal"
+            android:layout_marginRight="@dimen/margin_normal"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:background="@color/primary"
+            android:elevation="4dp"
+            android:text="@string/submit_text"
+            android:textColor="@color/text_white"
+            android:textSize="@dimen/text_size_large" />
+
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

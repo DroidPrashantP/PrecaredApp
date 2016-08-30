@@ -13,6 +13,10 @@
             android:icon="@drawable/pendin_icon"
             android:title="@string/my_accounts_text" />
         <item
+            android:id="@+id/item_my_address"
+            android:icon="@drawable/pendin_icon"
+            android:title="@string/my_address_text" />
+        <item
             android:id="@+id/item_notification"
             android:icon="@drawable/chat_icon"
             android:title="@string/text_notification" />

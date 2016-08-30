@@ -9,6 +9,8 @@ public class Login {
     public String password;
     public String number;
     public String referral_code;
+    public String lastName;
+
 
     public Login(String name, String email, String password, String number, String referral_code) {
         this.name = name;
@@ -21,6 +23,12 @@ public class Login {
     public Login(String email, String password) {
         this.email = email;
         this.password = password;
+    }
+
+    public Login(String firstname, String lastname, String phoneNumber) {
+        name = firstname;
+        lastName = lastname;
+        number = phoneNumber;
     }
 
 }

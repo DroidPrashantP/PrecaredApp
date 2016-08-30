@@ -44,6 +44,7 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
         NotificationRow notificationRow = mNotificationList.get(position);
         holder.title.setText(""+notificationRow.title);
         holder.subtitle.setText(""+notificationRow.desc);
+        holder.dateTextView.setText(""+notificationRow.dateText);
     }
 
     @Override
@@ -55,11 +56,12 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
      * class to hold ticket view
      */
     class NotificationViewHolder extends RecyclerView.ViewHolder {
-        private TextView title, subtitle;
+        private TextView title, subtitle,dateTextView;
         public NotificationViewHolder(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.title);
             subtitle = (TextView) itemView.findViewById(R.id.subTitle);
+            dateTextView = (TextView) itemView.findViewById(R.id.dateText);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

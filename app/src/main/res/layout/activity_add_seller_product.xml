@@ -142,100 +142,44 @@
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:background="@color/gray_bg" />
-                        <LinearLayout
-                            android:layout_width="wrap_content"
+                        <RelativeLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:padding="@dimen/padding_small">
+                            android:padding="@dimen/padding_normal">
                             <TextView
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:padding="@dimen/padding_small"
                                 android:text="@string/shipping_details"
                                 android:textColor="@color/primary_text"
+                                android:layout_alignParentLeft="true"
                                 android:textStyle="bold"
                                 android:textSize="@dimen/text_size_large" />
 
-                            <CheckBox
+                            <TextView
+                                android:id="@+id/addAdreessText"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Address Auto Fill"
-                                android:id="@+id/checkBox"
-                                android:layout_marginLeft="@dimen/margin_large"
                                 android:padding="@dimen/padding_small"
-                                android:layout_gravity="center"
-                                android:checked="true"
-                                android:background="@null"
-                                />
+                                android:text="Add New Address"
+                                android:textColor="@color/colorAccent"
+                                android:textStyle="bold"
+                                android:layout_alignParentRight="true"
+                                android:textSize="@dimen/text_size_large" />
 
-                        </LinearLayout>
+                        </RelativeLayout>
 
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/addressRecyclerview"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
-                        <EditText
-                            android:id="@+id/edtAddressLine1"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@null"
-                            android:gravity="top"
-                            android:hint="@string/line1_text"
-                            android:textColor="@color/primary_text"
-                            android:padding="@dimen/padding_normal"
-                            android:textColorHint="@color/secondary_text"
-                            android:textSize="@dimen/text_size_normal" />
-                        <EditText
-                            android:id="@+id/edtAddressLine2"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@null"
-                            android:hint="@string/line2_text"
-                            android:padding="@dimen/padding_normal"
-                            android:textColor="@color/primary_text"
-                            android:textColorHint="@color/secondary_text"
-                            android:textSize="@dimen/text_size_normal" />
-                        <EditText
-                            android:id="@+id/edtAddressCity"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@null"
-                            android:hint="@string/city_text"
-                            android:padding="@dimen/padding_normal"
-                            android:textColor="@color/primary_text"
-                            android:textColorHint="@color/secondary_text"
-                            android:textSize="@dimen/text_size_normal" />
-                        <EditText
-                            android:id="@+id/edtAddressState"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@null"
-                            android:hint="@string/state_text"
-                            android:padding="@dimen/padding_normal"
-                            android:textColor="@color/primary_text"
-                            android:textColorHint="@color/secondary_text"
-                            android:textSize="@dimen/text_size_normal" />
-                        <EditText
-                            android:id="@+id/edtAddressPincode"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@null"
-                            android:hint="@string/pincode_text"
-                            android:textColor="@color/primary_text"
-                            android:padding="@dimen/padding_normal"
-                            android:textColorHint="@color/secondary_text"
-                            android:textSize="@dimen/text_size_normal" />
-                        <EditText
-                            android:id="@+id/edtAddressMobile"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@null"
-                            android:textColor="@color/primary_text"
-                            android:hint="@string/phone_text"
-                            android:padding="@dimen/padding_normal"
-                            android:textColorHint="@color/secondary_text"
-                            android:textSize="@dimen/text_size_normal" />
+                        </android.support.v7.widget.RecyclerView>
 
                         <TableRow
                             android:id="@+id/attachmentLayout"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="end"
                             android:layout_marginTop="@dimen/margin_small"
@@ -287,7 +231,7 @@
                     android:layout_marginLeft="@dimen/margin_normal"
                     android:layout_marginRight="@dimen/margin_normal"
                     android:layout_marginTop="@dimen/margin_normal"
-                    android:background="@color/primary"
+                    android:background="@drawable/button"
                     android:elevation="4dp"
                     android:text="@string/submit_text"
                     android:textColor="@color/text_white"

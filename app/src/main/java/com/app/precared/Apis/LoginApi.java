@@ -1,5 +1,6 @@
 package com.app.precared.Apis;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
@@ -28,17 +29,23 @@ public class LoginApi implements Constants.LoginKeys {
     private Context mContext;
     private LoginListener mLoginListener;
     private SignUpListener mSignUpListener;
+    private UpdateListener mUpdateListener;
     private PrecaredSharePreferences mPreference;
 
-    public LoginApi(Context context, LoginListener loginListener) {
+    public LoginApi(Context context, LoginListener activity) {
         this.mContext = context;
-        mLoginListener = loginListener;
+        mLoginListener = (LoginListener) activity;
         mPreference = new PrecaredSharePreferences(mContext);
     }
 
-    public LoginApi(Context context, SignUpListener signUpListener) {
+    public LoginApi(Context context, SignUpListener activity) {
         this.mContext = context;
-        mSignUpListener = signUpListener;
+        mSignUpListener = activity;
+        mPreference = new PrecaredSharePreferences(mContext);
+    }
+    public LoginApi(Context context, UpdateListener activity) {
+        this.mContext = context;
+        mUpdateListener = activity;
         mPreference = new PrecaredSharePreferences(mContext);
     }
 
@@ -109,6 +116,35 @@ public class LoginApi implements Constants.LoginKeys {
         VolleyController.getInstance().addToRequestQueue(request, Constants.VolleyRequestTags.EMAIL_SIGNUP);
     }
 
+    /**
+     * Desi dime email SignUp
+     */
+    public void updateUserProfileReuest(final Login login) {
+        StringRequest request = new StringRequest(Request.Method.PUT, Constants.URL.API_UPDATE_PROFILE, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG, "Update Response: " + response);
+                mUpdateListener.onUpdateSuccess(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                mUpdateListener.onError(error);
+            }
+        }) { @Override
+        protected Map<String, String> getParams() throws AuthFailureError {
+            Map<String, String> params = new HashMap<>();
+            params.put(FIRST_NAME, login.name);
+            params.put(LAST_NAME, login.lastName);
+            params.put(NUMBER, login.number);
+            params.put(Constants.LoginKeys.ACCESS_TOKEN, mPreference.getAccessToken());
+            return params;
+        }
+        };
+        // Adding request to request queue
+        VolleyController.getInstance().addToRequestQueue(request, Constants.VolleyRequestTags.UPDATE_PROFILE);
+    }
+
     public interface LoginListener {
         //called method after successfully login
         void onLogin(String response, String loginMode);
@@ -120,6 +156,14 @@ public class LoginApi implements Constants.LoginKeys {
     public interface SignUpListener {
         //called method after successfully login
         void onSignUpSuccess(String response);
+
+        //called method on login error
+        void onError(VolleyError error);
+    }
+
+    public interface UpdateListener {
+        //called method after successfully login
+        void onUpdateSuccess(String response);
 
         //called method on login error
         void onError(VolleyError error);
