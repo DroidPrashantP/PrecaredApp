@@ -3,28 +3,20 @@ package com.app.precared.adapters;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.app.precared.R;
-import com.app.precared.activities.AddSellerProduct;
 import com.app.precared.activities.ChatActivity;
 import com.app.precared.activities.SellerActivity;
 import com.app.precared.interfaces.Constants;
-import com.app.precared.models.MyChats;
 import com.app.precared.models.Seller;
 import com.app.precared.utils.StringUtils;
 import com.squareup.picasso.Picasso;
@@ -38,6 +30,7 @@ public class SellerAdapter extends RecyclerView.Adapter<SellerAdapter.SellerView
     private final static String TAG = SellerAdapter.class.getSimpleName();
     private Context mContext;
     private List<Seller> mSellerList;
+    String[] descriptionData = {"Details", "Status", "Photo", "Confirm"};
 
     public SellerAdapter(Context context, List<Seller> sellerList) {
         this.mSellerList = sellerList;
@@ -58,9 +51,9 @@ public class SellerAdapter extends RecyclerView.Adapter<SellerAdapter.SellerView
 
         holder.productStatus.setText(""+seller.display_state);
         holder.productViewCount.setText(""+seller.view_count);
-        if (StringUtils.isNotEmpty(seller.seller_price)) {
+        if (StringUtils.isNotEmpty(seller.myPrice)) {
             holder.priceRL.setVisibility(View.VISIBLE);
-            holder.productAmount.setText("Rs "+seller.seller_price);
+            holder.productAmount.setText("Rs "+seller.myPrice);
         }else {
             holder.productAmount.setText("");
             holder.priceRL.setVisibility(View.GONE);
@@ -77,7 +70,7 @@ public class SellerAdapter extends RecyclerView.Adapter<SellerAdapter.SellerView
             holder.sellerName.setText("");
         }
 
-        if (StringUtils.isNotEmpty(seller.seller_price) && StringUtils.isNotEmpty(seller.selling_price)){
+        if (StringUtils.isNotEmpty(seller.myPrice) && StringUtils.isNotEmpty(seller.precaredPrice)){
             holder.priceCompImage.setVisibility(View.VISIBLE);
         }else {
             holder.priceCompImage.setVisibility(View.GONE);
@@ -86,7 +79,7 @@ public class SellerAdapter extends RecyclerView.Adapter<SellerAdapter.SellerView
         holder.priceCompImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (StringUtils.isNotEmpty(seller.seller_price)){
+                if (StringUtils.isNotEmpty(seller.myPrice)){
                     showSuccessCustomAlert(seller);
                 }
             }
@@ -109,7 +102,13 @@ public class SellerAdapter extends RecyclerView.Adapter<SellerAdapter.SellerView
             }
         });
 
-
+        holder.chatImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mContext.startActivity(new Intent(mContext, ChatActivity.class).putExtra(Constants.BundleKeys.ProductId,""+seller.id));
+            }
+        });
+      //  holder.mStateProgressBar.setStateDescriptionData(descriptionData);
     }
 
     @Override
@@ -125,6 +124,7 @@ public class SellerAdapter extends RecyclerView.Adapter<SellerAdapter.SellerView
         private ImageView productImage, chatImage, priceCompImage;
         private TextView productName, productID, productAmount, productStatus, productViewCount, sellerName;
         private Button recallBtn, goLiveBtn;
+      //  private StateProgressBar mStateProgressBar;
 
         public SellerViewHolder(View itemView) {
             super(itemView);
@@ -140,12 +140,8 @@ public class SellerAdapter extends RecyclerView.Adapter<SellerAdapter.SellerView
             priceCompImage = (ImageView) itemView.findViewById(R.id.expandPrice);
             recallBtn = (Button) itemView.findViewById(R.id.recallBtn);
             goLiveBtn = (Button) itemView.findViewById(R.id.goLiveBtn);
-            chatImage.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mContext.startActivity(new Intent(mContext, ChatActivity.class));
-                }
-            });
+         //   mStateProgressBar = (StateProgressBar) itemView.findViewById(R.id.state_progress_bar);
+
         }
     }
 
@@ -162,8 +158,8 @@ public class SellerAdapter extends RecyclerView.Adapter<SellerAdapter.SellerView
         final TextView refurbishCost = (TextView) dialog.findViewById(R.id.refurbishCostText);
         final Button okayBtn = (Button) dialog.findViewById(R.id.btnSubmit);
 
-        listedFor.setText(""+seller.selling_price);
-        myPrice.setText(""+seller.seller_price);
+        listedFor.setText(""+seller.precaredPrice);
+        myPrice.setText(""+seller.myPrice);
         serviceTax.setText(""+seller.serviceTax);
         refurbishCost.setText(""+seller.refurbishCash);
         dialog.setCancelable(false);

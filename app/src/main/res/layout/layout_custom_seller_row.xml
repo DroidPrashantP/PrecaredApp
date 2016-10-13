@@ -37,6 +37,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_normal"
                     android:paddingTop="@dimen/padding_normal"
+                    android:layout_marginLeft="@dimen/margin_small"
                     android:layout_toRightOf="@+id/productImage">
 
                     <RelativeLayout
@@ -82,14 +83,15 @@
                             android:textSize="@dimen/text_size_normal" />
                     </RelativeLayout>
 
-                    <RelativeLayout
+                    <TableRow
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
                         <TextView
                             android:id="@+id/QuantityWrapper1"
-                            android:layout_width="80dp"
-                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
                             android:padding="@dimen/padding_small"
                             android:text="ID : "
                             android:textColor="@color/primary_text"
@@ -102,9 +104,10 @@
                             android:layout_toRightOf="@+id/QuantityWrapper1"
                             android:padding="@dimen/padding_small"
                             android:text=""
+                            android:layout_weight="1"
                             android:textColor="@color/primary_text"
                             android:textSize="@dimen/text_size_normal" />
-                    </RelativeLayout>
+                    </TableRow>
 
                     <RelativeLayout
                         android:id="@+id/priceRL"
@@ -113,10 +116,10 @@
 
                         <TextView
                             android:id="@+id/priceWrapper"
-                            android:layout_width="80dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="@dimen/padding_small"
-                            android:text="Price"
+                            android:text="Price : "
                             android:textColor="@color/primary_text"
                             android:textSize="@dimen/text_size_normal" />
 
@@ -127,8 +130,9 @@
                             android:layout_toRightOf="@+id/priceWrapper"
                             android:padding="@dimen/padding_small"
                             android:text=""
-                            android:textColor="@color/colorAccent"
-                            android:textSize="@dimen/text_size_normal" />
+                            android:textColor="@color/primary"
+                            android:textSize="@dimen/text_size_large"
+                            android:textStyle="bold"/>
                         <ImageView
                             android:id="@+id/expandPrice"
                             android:layout_width="25dp"
@@ -136,8 +140,7 @@
                             android:layout_toRightOf="@+id/productAmount"
                             android:layout_alignTop="@+id/productAmount"
                             android:layout_marginLeft="@dimen/margin_normal"
-                            android:src="@drawable/add"
-                            android:padding="@dimen/padding_small"
+                            android:src="@drawable/plus_icon"
                             android:text=""
                             android:visibility="gone"
                             android:textColor="@color/colorAccent"
@@ -168,7 +171,7 @@
                             android:layout_toRightOf="@+id/recallBtn"
                             android:padding="@dimen/padding_small"
                             android:text="GO LIVE"
-                            android:background="@drawable/button"
+                            android:background="@drawable/button_orange"
                             android:textColor="@color/text_white"
                             android:visibility="gone"
                             android:textSize="@dimen/text_size_normal" />
@@ -273,440 +276,7 @@
                 </RelativeLayout>
             </RelativeLayout>
 
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                <TableRow
-                    android:id="@+id/trackingTableRow"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_margin="@dimen/margin_small"
-                    android:visibility="gone">
-
-                    <RelativeLayout
-                        android:layout_width="80dp"
-                        android:layout_height="@dimen/transaction_tracking_ht"
-                        android:layout_weight="1">
-
-                        <TextView
-                            android:id="@+id/newText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_above="@+id/trackingCircle1"
-                            android:layout_centerInParent="true"
-                            android:layout_marginBottom="@dimen/margin_large"
-                            android:layout_marginLeft="@dimen/margin_small"
-                            android:layout_marginRight="@dimen/margin_small"
-                            android:layout_marginTop="@dimen/margin_small"
-                            android:singleLine="true"
-                            android:text="@string/New_text"
-                            android:textColor="@color/secondary_text"
-                            android:textSize="@dimen/text_size_small" />
-
-                        <ImageView
-                            android:id="@+id/trackingCircle1"
-                            android:layout_width="@dimen/tracking_circle"
-                            android:layout_height="@dimen/tracking_circle"
-                            android:layout_centerInParent="true"
-                            android:layout_centerVertical="true"
-                            android:src="@drawable/circle_shape"
-                            android:tint="@color/secondary_text" />
-
-                        <TextView
-                            android:id="@+id/line11"
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_centerInParent="true"
-                            android:layout_marginLeft="@dimen/margin_small"
-                            android:layout_toRightOf="@+id/trackingCircle1"
-                            android:background="@color/secondary_text"
-                            android:singleLine="true" />
-
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="80dp"
-                        android:layout_height="@dimen/transaction_tracking_ht"
-                        android:layout_weight="1">
-
-                        <TextView
-                            android:id="@+id/accept"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_above="@+id/trackingCircle2"
-                            android:layout_centerInParent="true"
-                            android:layout_marginBottom="@dimen/margin_large"
-                            android:layout_marginLeft="@dimen/margin_small"
-                            android:layout_marginRight="@dimen/margin_small"
-                            android:layout_marginTop="@dimen/margin_small"
-                            android:singleLine="true"
-                            android:text="@string/accept_text"
-                            android:textColor="@color/secondary_text"
-                            android:textSize="@dimen/text_size_small" />
-
-                        <ImageView
-                            android:id="@+id/trackingCircle2"
-                            android:layout_width="@dimen/tracking_circle"
-                            android:layout_height="@dimen/tracking_circle"
-                            android:layout_centerInParent="true"
-                            android:src="@drawable/circle_shape"
-                            android:tint="@color/secondary_text" />
-
-                        <TextView
-                            android:id="@+id/line21"
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_centerInParent="true"
-                            android:layout_marginLeft="@dimen/margin_small"
-                            android:layout_toRightOf="@+id/trackingCircle2"
-                            android:background="@color/secondary_text" />
-
-                        <TextView
-                            android:id="@+id/line12"
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_centerInParent="true"
-                            android:gravity="center"
-                            android:layout_marginRight="@dimen/margin_small"
-                            android:layout_toLeftOf="@+id/trackingCircle2"
-                            android:background="@color/secondary_text" />
-
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="80dp"
-                        android:layout_height="@dimen/transaction_tracking_ht"
-                        android:layout_weight="1">
-
-                        <TextView
-                            android:id="@+id/pickup_schedule"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_above="@+id/trackingCircle3"
-                            android:layout_centerInParent="true"
-                            android:layout_marginLeft="@dimen/margin_small"
-                            android:layout_marginRight="@dimen/margin_small"
-                            android:layout_marginTop="@dimen/margin_small"
-                            android:layout_marginBottom="@dimen/margin_large"
-                            android:text="@string/picup_schedule_text"
-                            android:textColor="@color/secondary_text"
-                            android:singleLine="true"
-                            android:textSize="@dimen/text_size_small" />
-
-                        <ImageView
-                            android:id="@+id/trackingCircle3"
-                            android:layout_width="@dimen/tracking_circle"
-                            android:layout_height="@dimen/tracking_circle"
-                            android:layout_centerInParent="true"
-                            android:src="@drawable/circle_shape"
-                            android:tint="@color/secondary_text" />
-
-                        <TextView
-                            android:id="@+id/line31"
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_centerInParent="true"
-                            android:layout_marginLeft="@dimen/margin_small"
-                            android:layout_toRightOf="@+id/trackingCircle3"
-                            android:background="@color/secondary_text"
-                            android:textSize="@dimen/text_size_small" />
-
-                        <TextView
-                            android:id="@+id/line22"
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_centerInParent="true"
-                            android:layout_marginRight="@dimen/margin_small"
-                            android:layout_toLeftOf="@+id/trackingCircle3"
-                            android:background="@color/secondary_text" />
-
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="80dp"
-                        android:layout_height="@dimen/transaction_tracking_ht"
-                        android:layout_weight="1">
-
-                        <TextView
-                            android:id="@+id/product_received"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_above="@+id/trackingCircle4"
-                            android:layout_centerInParent="true"
-                            android:singleLine="true"
-                            android:layout_marginLeft="@dimen/margin_small"
-                            android:layout_marginRight="@dimen/margin_small"
-                            android:layout_marginTop="@dimen/margin_small"
-                            android:layout_marginBottom="@dimen/margin_large"
-                            android:text="@string/product_received_text"
-                            android:textColor="@color/secondary_text"
-                            android:textSize="@dimen/text_size_small" />
-
-                        <ImageView
-                            android:id="@+id/trackingCircle4"
-                            android:layout_width="@dimen/tracking_circle"
-                            android:layout_height="@dimen/tracking_circle"
-                            android:layout_centerInParent="true"
-                            android:src="@drawable/circle_shape"
-                            android:tint="@color/secondary_text" />
-
-                        <TextView
-                            android:id="@+id/line32"
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_centerInParent="true"
-                            android:layout_marginRight="@dimen/margin_small"
-                            android:layout_toLeftOf="@+id/trackingCircle4"
-                            android:background="@color/secondary_text" />
-
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="80dp"
-                        android:layout_height="@dimen/transaction_tracking_ht"
-                        android:layout_weight="1">
-
-                        <TextView
-                            android:id="@+id/ready"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_above="@+id/trackingCircle5"
-                            android:layout_centerInParent="true"
-                            android:layout_marginBottom="@dimen/margin_large"
-                            android:layout_marginLeft="@dimen/margin_small"
-                            android:layout_marginRight="@dimen/margin_small"
-                            android:layout_marginTop="@dimen/margin_small"
-                            android:singleLine="true"
-                            android:text="@string/ready_text"
-                            android:textColor="@color/secondary_text"
-                            android:textSize="@dimen/text_size_small" />
-
-                        <ImageView
-                            android:id="@+id/trackingCircle5"
-                            android:layout_width="@dimen/tracking_circle"
-                            android:layout_height="@dimen/tracking_circle"
-                            android:layout_centerInParent="true"
-                            android:src="@drawable/circle_shape"
-                            android:tint="@color/secondary_text" />
-
-                        <TextView
-                            android:id="@+id/line33"
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_centerInParent="true"
-                            android:layout_marginRight="@dimen/margin_small"
-                            android:layout_toLeftOf="@+id/trackingCircle5"
-                            android:background="@color/secondary_text" />
-
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="80dp"
-                        android:layout_height="@dimen/transaction_tracking_ht"
-                        android:layout_weight="1">
-
-                        <TextView
-                            android:id="@+id/live"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_above="@+id/trackingCircle6"
-                            android:layout_centerInParent="true"
-                            android:layout_marginBottom="@dimen/margin_large"
-                            android:layout_marginLeft="@dimen/margin_small"
-                            android:layout_marginRight="@dimen/margin_small"
-                            android:layout_marginTop="@dimen/margin_small"
-                            android:singleLine="true"
-                            android:text="@string/live_text"
-                            android:textColor="@color/secondary_text"
-                            android:textSize="@dimen/text_size_small" />
-
-                        <ImageView
-                            android:id="@+id/trackingCircle6"
-                            android:layout_width="@dimen/tracking_circle"
-                            android:layout_height="@dimen/tracking_circle"
-                            android:layout_centerInParent="true"
-                            android:src="@drawable/circle_shape"
-                            android:tint="@color/secondary_text" />
-
-                        <TextView
-                            android:id="@+id/line34"
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_centerInParent="true"
-                            android:layout_marginRight="@dimen/margin_small"
-                            android:layout_toLeftOf="@+id/trackingCircle6"
-                            android:background="@color/secondary_text" />
-
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="80dp"
-                        android:layout_height="@dimen/transaction_tracking_ht"
-                        android:layout_weight="1">
-
-                        <TextView
-                            android:id="@+id/booked"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_above="@+id/trackingCircle7"
-                            android:layout_centerInParent="true"
-                            android:layout_marginBottom="@dimen/margin_large"
-                            android:layout_marginLeft="@dimen/margin_small"
-                            android:layout_marginRight="@dimen/margin_small"
-                            android:layout_marginTop="@dimen/margin_small"
-                            android:singleLine="true"
-                            android:text="@string/book_text"
-                            android:textColor="@color/secondary_text"
-                            android:textSize="@dimen/text_size_small" />
-
-                        <ImageView
-                            android:id="@+id/trackingCircle7"
-                            android:layout_width="@dimen/tracking_circle"
-                            android:layout_height="@dimen/tracking_circle"
-                            android:layout_centerInParent="true"
-                            android:src="@drawable/circle_shape"
-                            android:tint="@color/secondary_text" />
-
-                        <TextView
-                            android:id="@+id/line35"
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_centerInParent="true"
-                            android:layout_marginRight="@dimen/margin_small"
-                            android:layout_toLeftOf="@+id/trackingCircle7"
-                            android:background="@color/secondary_text" />
-
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="80dp"
-                        android:layout_height="@dimen/transaction_tracking_ht"
-                        android:layout_weight="1">
-
-                        <TextView
-                            android:id="@+id/sold"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_above="@+id/trackingCircle8"
-                            android:layout_centerInParent="true"
-                            android:layout_marginBottom="@dimen/margin_large"
-                            android:layout_marginLeft="@dimen/margin_small"
-                            android:layout_marginRight="@dimen/margin_small"
-                            android:layout_marginTop="@dimen/margin_small"
-                            android:singleLine="true"
-                            android:text="@string/sold_text"
-                            android:textColor="@color/secondary_text"
-                            android:textSize="@dimen/text_size_small" />
-
-                        <ImageView
-                            android:id="@+id/trackingCircle8"
-                            android:layout_width="@dimen/tracking_circle"
-                            android:layout_height="@dimen/tracking_circle"
-                            android:layout_centerInParent="true"
-                            android:src="@drawable/circle_shape"
-                            android:tint="@color/secondary_text" />
-
-                        <TextView
-                            android:id="@+id/line36"
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_centerInParent="true"
-                            android:layout_marginRight="@dimen/margin_small"
-                            android:layout_toLeftOf="@+id/trackingCircle8"
-                            android:background="@color/secondary_text" />
-
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="80dp"
-                        android:layout_height="@dimen/transaction_tracking_ht"
-                        android:layout_weight="1">
-
-                        <TextView
-                            android:id="@+id/paid"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_above="@+id/trackingCircle9"
-                            android:layout_centerInParent="true"
-                            android:layout_marginBottom="@dimen/margin_large"
-                            android:layout_marginLeft="@dimen/margin_small"
-                            android:layout_marginRight="@dimen/margin_small"
-                            android:layout_marginTop="@dimen/margin_small"
-                            android:singleLine="true"
-                            android:text="@string/paid_text"
-                            android:textColor="@color/secondary_text"
-                            android:textSize="@dimen/text_size_small" />
-
-                        <ImageView
-                            android:id="@+id/trackingCircle9"
-                            android:layout_width="@dimen/tracking_circle"
-                            android:layout_height="@dimen/tracking_circle"
-                            android:layout_centerInParent="true"
-                            android:src="@drawable/circle_shape"
-                            android:tint="@color/secondary_text" />
-
-                        <TextView
-                            android:id="@+id/line37"
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_centerInParent="true"
-                            android:layout_marginRight="@dimen/margin_small"
-                            android:layout_toLeftOf="@+id/trackingCircle9"
-                            android:background="@color/secondary_text" />
-
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="80dp"
-                        android:layout_height="@dimen/transaction_tracking_ht"
-                        android:layout_weight="1">
-
-                        <TextView
-                            android:id="@+id/on_hold"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_above="@+id/trackingCircle10"
-                            android:layout_centerInParent="true"
-                            android:layout_marginBottom="@dimen/margin_large"
-                            android:layout_marginLeft="@dimen/margin_small"
-                            android:layout_marginRight="@dimen/margin_small"
-                            android:layout_marginTop="@dimen/margin_small"
-                            android:singleLine="true"
-                            android:text="@string/on_hold_text"
-                            android:textColor="@color/secondary_text"
-                            android:textSize="@dimen/text_size_small" />
-
-                        <ImageView
-                            android:id="@+id/trackingCircle10"
-                            android:layout_width="@dimen/tracking_circle"
-                            android:layout_height="@dimen/tracking_circle"
-                            android:layout_centerInParent="true"
-                            android:src="@drawable/circle_shape"
-                            android:tint="@color/secondary_text" />
-
-                        <TextView
-                            android:id="@+id/line38"
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_centerInParent="true"
-                            android:layout_marginRight="@dimen/margin_small"
-                            android:layout_toLeftOf="@+id/trackingCircle10"
-                            android:background="@color/secondary_text" />
-
-                    </RelativeLayout>
-
-                </TableRow>
-                </LinearLayout>
-            </HorizontalScrollView>
-
-
         </LinearLayout>
-
-
     </android.support.v7.widget.CardView>
 
 </LinearLayout>

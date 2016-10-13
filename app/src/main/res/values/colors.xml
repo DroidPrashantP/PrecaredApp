@@ -25,4 +25,11 @@
     <color name="divider_light">#E0E0E0</color>
 
     <color name="black_overlay">#66000000</color>
+    <color name="orange">#fc7e46</color>
+
+    <color name="background_color">#F2000000</color>
+    <color name="foreground_color">#b42379</color>
+    <color name="background_text_color">#808080</color>
+    <color name="foreground_text_color">#eeeeee</color>
+
 </resources>

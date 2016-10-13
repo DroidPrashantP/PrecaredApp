@@ -150,6 +150,9 @@ public interface Constants {
         String UPDATE_SELLER_PRODUCT = BASE_URL + "api/v1/seller_requests/";;
     }
 
+    interface BundleKeys{
+        String ProductId = "productId";
+    }
     interface SellerKeys {
 
         String DATA = "data";

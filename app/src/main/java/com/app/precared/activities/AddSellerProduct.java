@@ -74,7 +74,7 @@ public class AddSellerProduct extends AppCompatActivity implements SellerApi.Add
     private RecyclerView mAddressRecyclerview;
     private SellerApi mSellerApi;
     private TextView mAddAddressTextView;
-    private ArrayList<Address> addressArrayList;
+    private ArrayList<Address> addressArrayList = new ArrayList<Address>();
     private AddressListAdapter addressListAdapter;
 
     @Override
@@ -335,6 +335,9 @@ public class AddSellerProduct extends AppCompatActivity implements SellerApi.Add
         Utils.closeProgress();
         Log.e("onAddAddresses", response);
         if (StringUtils.isNotEmpty(response)) {
+            if (addressArrayList == null){
+                addressArrayList = new ArrayList<Address>();
+            }
             try {
                 JSONObject jsonObject = new JSONObject(response);
                 if (jsonObject.has("data")) {

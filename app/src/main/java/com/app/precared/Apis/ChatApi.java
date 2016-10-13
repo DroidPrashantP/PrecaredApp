@@ -10,6 +10,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.app.precared.interfaces.Constants;
 import com.app.precared.utils.PrecaredSharePreferences;
+import com.app.precared.utils.StringUtils;
 import com.app.precared.utils.VolleyController;
 
 import java.util.HashMap;
@@ -35,9 +36,13 @@ public class ChatApi {
     /**
      * execute Seller request
      */
-    public void executeSellerRequest(String access_token) {
-
-        String URL = Constants.URL.API_FETCH_CHAT_DATA+"?access_token="+access_token;
+    public void executeSellerRequest(String access_token, String sellerRequestID) {
+        String URL ="";
+        if (StringUtils.isNotEmpty(sellerRequestID)) {
+            URL = Constants.URL.API_FETCH_CHAT_DATA + "?access_token=" + access_token + "&seller_request_id" + sellerRequestID;
+        }else {
+            URL = Constants.URL.API_FETCH_CHAT_DATA + "?access_token=" + access_token;
+        }
         StringRequest request = new StringRequest(Request.Method.GET, URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

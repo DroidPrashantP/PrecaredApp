@@ -78,12 +78,14 @@ public class ChatActivity extends AppCompatActivity implements Constants.MyChatK
     private BroadcastReceiver mRegistrationBroadcastReceiver;
     private ImageView attachImageView;
     private List<String>  mFilePathList = new ArrayList<>();
+    private String SellerRequestID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        getBundleData();
         initialization();
         setToolbar();
         initViews();
@@ -103,6 +105,13 @@ public class ChatActivity extends AppCompatActivity implements Constants.MyChatK
         Analytics.with(this).screen(null,Constants.GoogleAnalyticKey.CHAT_LISTING);
     }
 
+    private void getBundleData() {
+        Bundle bundle = getIntent().getExtras();
+        if (bundle!=null){
+            SellerRequestID = bundle.getString(Constants.BundleKeys.ProductId);
+        }
+    }
+
     private void initialization() {
         mPrecaredSharePreferences = new PrecaredSharePreferences(this);
         mChatApi = new ChatApi(this, this);
@@ -113,7 +122,7 @@ public class ChatActivity extends AppCompatActivity implements Constants.MyChatK
      */
     private void fetchChatData() {
         Utils.showProgress(ChatActivity.this, Constants.VolleyRequestTags.CHAT_LIST_REQUEST);
-        mChatApi.executeSellerRequest(mPrecaredSharePreferences.getAccessToken());
+        mChatApi.executeSellerRequest(mPrecaredSharePreferences.getAccessToken(), SellerRequestID);
     }
 
 

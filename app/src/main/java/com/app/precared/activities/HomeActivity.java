@@ -259,9 +259,6 @@ public class HomeActivity extends AppCompatActivity {
         dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.secondary_text));
     }
 
-    public void onClickKnowMore(View view) {
-
-    }
 
     public void rippleEffect(View view){
         int[] attrs = new int[]{R.attr.selectableItemBackground};
