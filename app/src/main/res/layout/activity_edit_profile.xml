@@ -142,7 +142,6 @@
                 android:text="@string/update_text"
                 android:textColor="@color/text_white"
                 android:textSize="@dimen/text_size_normal"
-                app:layout_anchor="@id/card_view"
                 app:layout_anchorGravity="bottom|center" />
         </RelativeLayout>
 

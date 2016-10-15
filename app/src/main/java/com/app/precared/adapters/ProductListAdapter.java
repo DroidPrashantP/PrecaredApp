@@ -24,7 +24,6 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     private final static String TAG = ProductListAdapter.class.getSimpleName();
     private Context mContext;
     private List<Product> mProductList;
-    private int ImageList[] = {R.drawable.product_one,R.drawable.product_two,R.drawable.product_three,R.drawable.place_product,R.drawable.product_five};
 
     public ProductListAdapter(Context context, List<Product> productList) {
         this.mProductList = productList;
@@ -41,7 +40,6 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     public void onBindViewHolder(TicketViewHolder holder, int position) {
         holder.mRatingBar.setRating(3.5f);
         holder.priceTextView.setPaintFlags(holder.priceTextView.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
-        Picasso.with(mContext).load(ImageList[position]).error(R.drawable.place_product).placeholder(R.drawable.place_product).into(holder.productImage);
     }
 
     @Override

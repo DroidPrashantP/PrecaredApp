@@ -151,6 +151,7 @@ public class ChatActivity extends AppCompatActivity implements Constants.MyChatK
                     Map<String, String> params = new HashMap<>();
                     params.put(Constants.LoginKeys.ACCESS_TOKEN, mPrecaredSharePreferences.getAccessToken());
                     params.put(Constants.MyChatKeys.MESSAGES, replyEditText.getText().toString());
+                    params.put("seller_request_id", SellerRequestID);
                     CustomMultipartRequest request = new CustomMultipartRequest(Request.Method.POST, Constants.URL.API_SEND_MESSAGE, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {

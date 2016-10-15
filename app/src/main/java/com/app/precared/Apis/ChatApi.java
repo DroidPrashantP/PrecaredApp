@@ -39,7 +39,7 @@ public class ChatApi {
     public void executeSellerRequest(String access_token, String sellerRequestID) {
         String URL ="";
         if (StringUtils.isNotEmpty(sellerRequestID)) {
-            URL = Constants.URL.API_FETCH_CHAT_DATA + "?access_token=" + access_token + "&seller_request_id" + sellerRequestID;
+            URL = Constants.URL.API_FETCH_CHAT_DATA + "?access_token=" + access_token + "&seller_request_id=" + sellerRequestID;
         }else {
             URL = Constants.URL.API_FETCH_CHAT_DATA + "?access_token=" + access_token;
         }
