@@ -147,7 +147,6 @@
                 android:text="@string/login_button_text"
                 android:textSize="@dimen/text_size_normal"
                 android:textColor="@android:color/white"
-                app:layout_anchor="@+id/card_view"
                 app:layout_anchorGravity="bottom|center" />
         </RelativeLayout>
 
