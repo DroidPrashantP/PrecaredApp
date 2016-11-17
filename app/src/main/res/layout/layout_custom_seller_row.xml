@@ -35,10 +35,10 @@
                     android:id="@+id/tablayout1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_normal"
-                    android:paddingTop="@dimen/padding_normal"
                     android:layout_marginLeft="@dimen/margin_small"
-                    android:layout_toRightOf="@+id/productImage">
+                    android:layout_marginTop="@dimen/margin_normal"
+                    android:layout_toRightOf="@+id/productImage"
+                    android:paddingTop="@dimen/padding_normal">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -102,9 +102,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_toRightOf="@+id/QuantityWrapper1"
+                            android:layout_weight="1"
                             android:padding="@dimen/padding_small"
                             android:text=""
-                            android:layout_weight="1"
                             android:textColor="@color/primary_text"
                             android:textSize="@dimen/text_size_normal" />
                     </TableRow>
@@ -132,19 +132,20 @@
                             android:text=""
                             android:textColor="@color/primary"
                             android:textSize="@dimen/text_size_large"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
+
                         <ImageView
                             android:id="@+id/expandPrice"
                             android:layout_width="25dp"
                             android:layout_height="25dp"
-                            android:layout_toRightOf="@+id/productAmount"
                             android:layout_alignTop="@+id/productAmount"
                             android:layout_marginLeft="@dimen/margin_normal"
+                            android:layout_toRightOf="@+id/productAmount"
                             android:src="@drawable/plus_icon"
                             android:text=""
-                            android:visibility="gone"
                             android:textColor="@color/colorAccent"
-                            android:textSize="@dimen/text_size_normal" />
+                            android:textSize="@dimen/text_size_normal"
+                            android:visibility="gone" />
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -156,12 +157,12 @@
                             android:id="@+id/recallBtn"
                             android:layout_width="wrap_content"
                             android:layout_height="30dp"
+                            android:background="@drawable/button_orange"
                             android:padding="@dimen/padding_small"
                             android:text="RECALL"
-                            android:background="@drawable/button_orange"
                             android:textColor="@color/text_white"
                             android:textSize="@dimen/text_size_normal"
-                            android:visibility="gone"/>
+                            android:visibility="gone" />
 
                         <Button
                             android:id="@+id/goLiveBtn"
@@ -169,12 +170,12 @@
                             android:layout_height="30dp"
                             android:layout_marginLeft="@dimen/margin_normal"
                             android:layout_toRightOf="@+id/recallBtn"
+                            android:background="@drawable/button_orange"
                             android:padding="@dimen/padding_small"
                             android:text="GO LIVE"
-                            android:background="@drawable/button_orange"
                             android:textColor="@color/text_white"
-                            android:visibility="gone"
-                            android:textSize="@dimen/text_size_normal" />
+                            android:textSize="@dimen/text_size_normal"
+                            android:visibility="gone" />
                     </RelativeLayout>
                 </TableLayout>
             </RelativeLayout>
@@ -184,6 +185,7 @@
                 android:layout_height="40dp">
 
                 <RelativeLayout
+                    android:id="@+id/statusLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
@@ -276,7 +278,35 @@
                 </RelativeLayout>
             </RelativeLayout>
 
+
         </LinearLayout>
     </android.support.v7.widget.CardView>
 
+    <HorizontalScrollView
+        android:id="@+id/statesHorizontalView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        android:visibility="gone">
+    <LinearLayout
+        android:layout_width="500dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_large">
+
+        <com.app.precared.utils.StateProgressBar
+            android:id="@+id/state_progress_bar"
+            android:layout_width="500dp"
+            android:fitsSystemWindows="true"
+            android:layout_height="wrap_content"
+            app:spb_animateToCurrentProgressState="true"
+            app:spb_checkStateCompleted="true"
+            app:spb_descriptionTopSpaceIncrementer="5dp"
+            app:spb_maxStateNumber="nine"
+            app:spb_stateDescriptionSize="10sp"
+            app:spb_stateLineThickness="3dp"
+            app:spb_stateNumberBackgroundColor="@color/background_color"
+            app:spb_stateSize="20dp"
+            app:spb_stateTextSize="12sp" />
+    </LinearLayout>
+    </HorizontalScrollView>
 </LinearLayout>

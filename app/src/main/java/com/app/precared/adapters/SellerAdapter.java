@@ -4,11 +4,13 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -18,9 +20,11 @@ import com.app.precared.activities.ChatActivity;
 import com.app.precared.activities.SellerActivity;
 import com.app.precared.interfaces.Constants;
 import com.app.precared.models.Seller;
+import com.app.precared.utils.StateProgressBar;
 import com.app.precared.utils.StringUtils;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,11 +34,23 @@ public class SellerAdapter extends RecyclerView.Adapter<SellerAdapter.SellerView
     private final static String TAG = SellerAdapter.class.getSimpleName();
     private Context mContext;
     private List<Seller> mSellerList;
-    String[] descriptionData = {"Details", "Status", "Photo", "Confirm"};
+    String[] descriptionData = {"New", "Accept", "Pickup", "Received", "Ready", "Live", "Booked","Sold", "Paid"};
+    ArrayList descriptionDataFromServer = new ArrayList();
 
     public SellerAdapter(Context context, List<Seller> sellerList) {
         this.mSellerList = sellerList;
         this.mContext = context;
+        descriptionDataFromServer.add(0,"New");
+        descriptionDataFromServer.add(1,"Accept");
+        descriptionDataFromServer.add(2,"Pickup");
+        descriptionDataFromServer.add(3,"Received");
+        descriptionDataFromServer.add(4,"Ready");
+        descriptionDataFromServer.add(5,"On hold");
+        descriptionDataFromServer.add(6,"Booked");
+        descriptionDataFromServer.add(7,"Sold");
+        descriptionDataFromServer.add(8,"Paid");
+
+
     }
 
     @Override
@@ -48,8 +64,8 @@ public class SellerAdapter extends RecyclerView.Adapter<SellerAdapter.SellerView
         final Seller seller = mSellerList.get(position);
         holder.productName.setText(seller.name);
         holder.productID.setText(""+seller.id);
-
         holder.productStatus.setText(""+seller.display_state);
+
         holder.productViewCount.setText(""+seller.view_count);
         if (StringUtils.isNotEmpty(seller.myPrice)) {
             holder.priceRL.setVisibility(View.VISIBLE);
@@ -108,7 +124,62 @@ public class SellerAdapter extends RecyclerView.Adapter<SellerAdapter.SellerView
                 mContext.startActivity(new Intent(mContext, ChatActivity.class).putExtra(Constants.BundleKeys.ProductId,""+seller.id));
             }
         });
-      //  holder.mStateProgressBar.setStateDescriptionData(descriptionData);
+        holder.mStateProgressBar.setStateDescriptionData(descriptionData);
+
+        holder.statusLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (holder.showStatusbar){
+                    holder.showStatusbar = false;
+                    holder.statesHorizontalView.setVisibility(View.GONE);
+                }else {
+                    holder.showStatusbar = true;
+                    holder.statesHorizontalView.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+        if (seller.display_state.equalsIgnoreCase("live")){
+            holder.mStateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.SIX);
+        }else if (seller.display_state.equalsIgnoreCase("Rejected") || seller.display_state.equalsIgnoreCase("Reject")){
+            holder.mStateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.ONE);
+        }else {
+            setStateProgressBar(holder.mStateProgressBar, descriptionDataFromServer.indexOf(seller.display_state));
+        }
+    }
+
+    private void setStateProgressBar(StateProgressBar mStateProgressBar, int i) {
+
+        Log.e("Posiiton", ""+i);
+        switch (i){
+            case 0:
+                mStateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.ONE);
+                break;
+            case 1:
+                mStateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.TWO);
+                break;
+            case 2:
+                mStateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.THREE);
+                break;
+            case 3:
+                mStateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.FOUR);
+                break;
+            case 4:
+                mStateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.FICE);
+                break;
+            case 5:
+                mStateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.SIX);
+                break;
+            case 6:
+                mStateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.SEVEN);
+                break;
+            case 7:
+                mStateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.EIGHT);
+                break;
+            case 8:
+                mStateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.NINE);
+                break;
+
+        }
     }
 
     @Override
@@ -124,7 +195,10 @@ public class SellerAdapter extends RecyclerView.Adapter<SellerAdapter.SellerView
         private ImageView productImage, chatImage, priceCompImage;
         private TextView productName, productID, productAmount, productStatus, productViewCount, sellerName;
         private Button recallBtn, goLiveBtn;
-      //  private StateProgressBar mStateProgressBar;
+        private StateProgressBar mStateProgressBar;
+        private HorizontalScrollView statesHorizontalView;
+        private RelativeLayout statusLayout;
+        private boolean showStatusbar;
 
         public SellerViewHolder(View itemView) {
             super(itemView);
@@ -140,7 +214,9 @@ public class SellerAdapter extends RecyclerView.Adapter<SellerAdapter.SellerView
             priceCompImage = (ImageView) itemView.findViewById(R.id.expandPrice);
             recallBtn = (Button) itemView.findViewById(R.id.recallBtn);
             goLiveBtn = (Button) itemView.findViewById(R.id.goLiveBtn);
-         //   mStateProgressBar = (StateProgressBar) itemView.findViewById(R.id.state_progress_bar);
+            mStateProgressBar = (StateProgressBar) itemView.findViewById(R.id.state_progress_bar);
+            statesHorizontalView = (HorizontalScrollView) itemView.findViewById(R.id.statesHorizontalView);
+            statusLayout = (RelativeLayout) itemView.findViewById(R.id.statusLayout);
 
         }
     }
@@ -172,4 +248,5 @@ public class SellerAdapter extends RecyclerView.Adapter<SellerAdapter.SellerView
             }
         });
     }
+
 }

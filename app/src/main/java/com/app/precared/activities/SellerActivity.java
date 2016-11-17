@@ -157,7 +157,7 @@ public class SellerActivity extends AppCompatActivity implements SellerApi.Selle
 
     @Override
     public void onSeller(String response, String apiType) {
-        Utils.closeProgress();
+
         mSellersList.clear();
         Log.e("Response", response);
         if (apiType.equalsIgnoreCase(Constants.SellerKeys.API_SELLER_LISTING)){
@@ -221,6 +221,8 @@ public class SellerActivity extends AppCompatActivity implements SellerApi.Selle
 
                 setSellerStateAdapter();
 
+                Utils.closeProgress();
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -258,17 +260,7 @@ public class SellerActivity extends AppCompatActivity implements SellerApi.Selle
             Log.e(TAG, volleyError.toString());
             if (volleyError instanceof NoConnectionError) {
                 Toast.makeText(this, "Please connect to internet!", Toast.LENGTH_SHORT).show();
-            }else if (volleyError.networkResponse.statusCode == 500) {
-                try {
-                    String response = new String(volleyError.networkResponse.data);
-                    JSONObject jsonResponse = new JSONObject(response);
-                    Log.d(TAG, "" + jsonResponse);
-                    Toast.makeText(this, "" + jsonResponse.getString("message"), Toast.LENGTH_SHORT).show();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-            else if (volleyError.networkResponse.statusCode == 201) {
+            }else if (volleyError.networkResponse.statusCode == 201) {
                 try {
                     String response = new String(volleyError.networkResponse.data);
                     JSONObject jsonResponse = new JSONObject(response);
@@ -278,7 +270,14 @@ public class SellerActivity extends AppCompatActivity implements SellerApi.Selle
                     e.printStackTrace();
                 }
             } else if (volleyError instanceof ServerError) {
-                Toast.makeText(this, "Server Error", Toast.LENGTH_SHORT).show();
+                try {
+                    String response = new String(volleyError.networkResponse.data);
+                    JSONObject jsonResponse = new JSONObject(response);
+                    Log.d(TAG, "" + jsonResponse);
+                    Toast.makeText(this, "" + jsonResponse.getString("message"), Toast.LENGTH_SHORT).show();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }  else if (volleyError instanceof TimeoutError) {
                 Toast.makeText(this, "Request timeout!", Toast.LENGTH_SHORT).show();
             }
