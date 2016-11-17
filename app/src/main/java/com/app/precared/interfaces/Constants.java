@@ -175,6 +175,7 @@ public interface Constants {
         String SERVICE_TAX = "service_tax";
         String CAN_PUBLISH = "can_publish";
         String CAN_HOLD = "can_hold";
+        String PRODUCT_URL = "product_url";
 
     }
 

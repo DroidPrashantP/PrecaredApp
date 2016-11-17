@@ -186,7 +186,7 @@ public class SellerActivity extends AppCompatActivity implements SellerApi.Selle
                             seller.refurbishCash = JSONUtil.getJSONString(dataArray.getJSONObject(i), Constants.SellerKeys.REFURBISH_PRICE);
                             seller.canHold = JSONUtil.getJSONBoolean(dataArray.getJSONObject(i), Constants.SellerKeys.CAN_HOLD);
                             seller.canPublish = JSONUtil.getJSONBoolean(dataArray.getJSONObject(i), Constants.SellerKeys.CAN_PUBLISH);
-
+                            seller.productUrl = JSONUtil.getJSONString(dataArray.getJSONObject(i), Constants.SellerKeys.PRODUCT_URL);
                             seller.selleName = mPrecaredSharePreferences.getName();
                             seller.selleEmail = mPrecaredSharePreferences.getEmail();
                             seller.selleID = mPrecaredSharePreferences.getUserId();

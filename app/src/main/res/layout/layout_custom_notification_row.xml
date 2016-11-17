@@ -1,65 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/notificationLayout"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:animateLayoutChanges="true"
-    android:orientation="horizontal"
-    android:paddingLeft="@dimen/padding_normal"
-    android:paddingRight="@dimen/padding_normal"
-    android:paddingBottom="@dimen/padding_small"
-    android:paddingTop="@dimen/padding_normal">
+    android:layout_marginBottom="@dimen/margin_small"
+    android:layout_marginLeft="@dimen/margin_very_small"
+    android:layout_marginRight="@dimen/margin_very_small"
+    android:layout_marginTop="@dimen/margin_small"
+    app:cardBackgroundColor="@color/default_card_bg"
+    app:cardCornerRadius="@dimen/card_corner_radius"
+    app:cardPreventCornerOverlap="false">
 
-
-    <RelativeLayout
-        android:layout_width="0dp"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/notificationLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/margin_small"
-        android:layout_marginLeft="@dimen/margin_small"
-        android:layout_marginRight="@dimen/margin_small"
-        android:layout_marginStart="@dimen/margin_small"
-        android:padding="@dimen/padding_small"
-        android:layout_weight="1">
+        android:animateLayoutChanges="true"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/padding_small"
+        android:paddingLeft="@dimen/padding_normal"
+        android:paddingRight="@dimen/padding_normal"
+        android:paddingTop="@dimen/padding_normal">
 
 
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="match_parent"
+        <RelativeLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:text=""
-            android:textStyle="bold"
-            android:paddingBottom="@dimen/padding_small"
-            android:paddingLeft="@dimen/padding_small"
-            android:paddingRight="@dimen/padding_small"
-            android:textColor="@color/primary_text"
-            android:textSize="@dimen/text_size_normal" />
+            android:layout_marginEnd="@dimen/margin_small"
+            android:layout_marginLeft="@dimen/margin_small"
+            android:layout_marginRight="@dimen/margin_small"
+            android:layout_marginStart="@dimen/margin_small"
+            android:layout_weight="1"
+            android:padding="@dimen/padding_small">
 
 
-        <TextView
-            android:id="@+id/subTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingRight="@dimen/padding_small"
-            android:paddingLeft="@dimen/padding_small"
-            android:layout_below="@+id/title"
-            android:textColor="@color/secondary_text"
-            android:textSize="@dimen/text_size_small"
-            android:text=""/>
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingBottom="@dimen/padding_small"
+                android:paddingLeft="@dimen/padding_small"
+                android:paddingRight="@dimen/padding_small"
+                android:text=""
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/text_size_normal"
+                android:textStyle="bold"
+                android:visibility="gone"/>
 
-        <TextView
-            android:id="@+id/dateText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingRight="@dimen/padding_small"
-            android:paddingLeft="@dimen/padding_small"
-            android:layout_below="@+id/subTitle"
-            android:textColor="@color/primary"
-            android:textSize="@dimen/text_size_small"
-            android:text=""
-            android:layout_alignParentRight="true"/>
 
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/subTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/title"
+                android:paddingLeft="@dimen/padding_small"
+                android:paddingRight="@dimen/padding_small"
+                android:text=""
+                android:textColor="@color/secondary_text"
+                android:textSize="@dimen/text_size_small" />
 
-</LinearLayout>
+            <TextView
+                android:id="@+id/dateText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/subTitle"
+                android:paddingLeft="@dimen/padding_small"
+                android:paddingRight="@dimen/padding_small"
+                android:text=""
+                android:textColor="@color/primary"
+                android:textSize="@dimen/text_size_small" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>

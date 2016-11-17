@@ -34,7 +34,7 @@ public class GcmListenerService extends com.google.android.gms.gcm.GcmListenerSe
     private static final int DEFAULT_DESCRIPTION_LENGTH = 50;
     private LocalBroadcastManager broadcaster;
     private String deal_id;
-    private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
+    private static final String DATE_FORMAT = "dd-MM-yyyy h:mm a";
 
     @Override
     public void onMessageReceived(String from, Bundle data) {

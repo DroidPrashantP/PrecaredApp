@@ -24,4 +24,5 @@ public class Seller {
     public String myPrice;
     public boolean canPublish;
     public boolean canHold;
+    public String productUrl;
 }

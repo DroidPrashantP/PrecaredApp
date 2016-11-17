@@ -1,9 +1,12 @@
 package com.app.precared.adapters;
 
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +24,7 @@ import com.app.precared.activities.SellerActivity;
 import com.app.precared.interfaces.Constants;
 import com.app.precared.models.Seller;
 import com.app.precared.utils.StateProgressBar;
+import com.app.precared.utils.NetworkManager;
 import com.app.precared.utils.StringUtils;
 import com.squareup.picasso.Picasso;
 
@@ -65,7 +69,6 @@ public class SellerAdapter extends RecyclerView.Adapter<SellerAdapter.SellerView
         holder.productName.setText(seller.name);
         holder.productID.setText(""+seller.id);
         holder.productStatus.setText(""+seller.display_state);
-
         holder.productViewCount.setText(""+seller.view_count);
         if (StringUtils.isNotEmpty(seller.myPrice)) {
             holder.priceRL.setVisibility(View.VISIBLE);
@@ -80,11 +83,7 @@ public class SellerAdapter extends RecyclerView.Adapter<SellerAdapter.SellerView
             holder.productImage.setImageResource(R.drawable.place_product);
         }
 
-        if (StringUtils.isNotEmpty(seller.selleName)) {
-            holder.sellerName.setText(seller.selleName);
-        }else {
-            holder.sellerName.setText("");
-        }
+        holder.sellerName.setText(StringUtils.isNotEmpty(seller.selleName) ? seller.selleName : "");
 
         if (StringUtils.isNotEmpty(seller.myPrice) && StringUtils.isNotEmpty(seller.precaredPrice)){
             holder.priceCompImage.setVisibility(View.VISIBLE);
@@ -122,6 +121,23 @@ public class SellerAdapter extends RecyclerView.Adapter<SellerAdapter.SellerView
             @Override
             public void onClick(View v) {
                 mContext.startActivity(new Intent(mContext, ChatActivity.class).putExtra(Constants.BundleKeys.ProductId,""+seller.id));
+            }
+        });
+
+
+        holder.productImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (NetworkManager.isConnectedToInternet(mContext) && !TextUtils.isEmpty(seller.productUrl)) {
+                    try {
+                        Log.d("openUrlToBrowser", seller.productUrl);
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setData(Uri.parse(seller.productUrl));
+                        mContext.startActivity(intent);
+                    } catch (ActivityNotFoundException exception) {
+                        Log.e("Redirecting to browser:", exception.toString());
+                    }
+                }
             }
         });
         holder.mStateProgressBar.setStateDescriptionData(descriptionData);
@@ -248,5 +264,4 @@ public class SellerAdapter extends RecyclerView.Adapter<SellerAdapter.SellerView
             }
         });
     }
-
 }
