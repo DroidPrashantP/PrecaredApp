@@ -93,7 +93,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:padding="@dimen/padding_small"
-                            android:text="ID : "
+                            android:text="ID :"
                             android:textColor="@color/primary_text"
                             android:textSize="@dimen/text_size_normal" />
 
@@ -103,7 +103,9 @@
                             android:layout_height="wrap_content"
                             android:layout_toRightOf="@+id/QuantityWrapper1"
                             android:layout_weight="1"
-                            android:padding="@dimen/padding_small"
+                            android:paddingTop="@dimen/padding_small"
+                            android:paddingBottom="@dimen/padding_small"
+                            android:paddingRight="@dimen/padding_small"
                             android:text=""
                             android:textColor="@color/primary_text"
                             android:textSize="@dimen/text_size_normal" />
@@ -119,7 +121,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="@dimen/padding_small"
-                            android:text="Price : "
+                            android:text="Price :"
                             android:textColor="@color/primary_text"
                             android:textSize="@dimen/text_size_normal" />
 

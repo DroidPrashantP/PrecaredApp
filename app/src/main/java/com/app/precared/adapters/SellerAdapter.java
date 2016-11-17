@@ -145,12 +145,14 @@ public class SellerAdapter extends RecyclerView.Adapter<SellerAdapter.SellerView
         holder.statusLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (holder.showStatusbar){
-                    holder.showStatusbar = false;
-                    holder.statesHorizontalView.setVisibility(View.GONE);
-                }else {
-                    holder.showStatusbar = true;
-                    holder.statesHorizontalView.setVisibility(View.VISIBLE);
+                if (!(seller.display_state.equalsIgnoreCase("On hold"))) {
+                    if (holder.showStatusbar) {
+                        holder.showStatusbar = false;
+                        holder.statesHorizontalView.setVisibility(View.GONE);
+                    } else {
+                        holder.showStatusbar = true;
+                        holder.statesHorizontalView.setVisibility(View.VISIBLE);
+                    }
                 }
             }
         });
